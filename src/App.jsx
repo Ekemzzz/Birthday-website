@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
+import heroImage from '../My Image.png'
 
 /* ─── Birthday Splash Screen ───────────────────────────────────── */
 function BirthdaySplash({ onDone }) {
@@ -159,7 +160,7 @@ function App() {
       <div className="absolute -right-32 top-48 h-96 w-96 rounded-full bg-purple-600/15 blur-3xl pointer-events-none"></div>
 
       <nav className="relative z-10 mx-auto flex h-22 max-w-6xl items-center justify-between px-6 lg:px-8">
-        <a href="#top" className="font-display text-4xl italic text-white font-semibold hover:text-amber-300 transition">M.</a>
+        <a href="#top" className="font-display text-4xl italic text-white font-semibold hover:text-amber-300 transition">Dev-Ek</a>
         <div className="flex gap-8 text-sm font-medium text-indigo-200">
           <a href="#about" className="hover:text-amber-300 transition-colors">About me</a>
           <a href="#wishes" className="hover:text-amber-300 transition-colors">Send wishes</a>
@@ -173,19 +174,13 @@ function App() {
           <p className="mt-7 max-w-md leading-7 text-indigo-200/80 text-base">A little corner of the internet to celebrate this chapter, the people I love, and all the good things still on their way.</p>
           <a href="#wishes" className="mt-8 inline-flex items-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-4 rounded-full text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5">Leave a birthday wish <span className="text-white text-lg">&#8599;</span></a>
         </div>
-        <div className="relative mx-auto h-96 w-full max-w-lg overflow-hidden rounded-[46%_54%_44%_56%/56%_43%_57%_44%] bg-gradient-to-br from-indigo-900/80 via-indigo-950 to-purple-950 border border-indigo-700/40 shadow-2xl">
-          <div className="absolute right-16 top-12 h-64 w-64 rounded-full bg-indigo-500/20 blur-xl"></div>
-          <div className="absolute right-3 top-6 h-74 w-74 rounded-full border-2 border-amber-400/30"></div>
-          <div className="absolute right-[-32px] top-[-16px] h-92 w-92 rounded-full border-2 border-purple-500/20"></div>
-          <div className="absolute bottom-14 left-1/2 w-52 -translate-x-1/2">
-            <div className="relative z-10 mx-auto h-14 w-3 bg-indigo-400 rounded-t shadow-[0_0_12px_rgba(129,140,248,0.5)]"><i className="absolute -left-0.5 -top-5 h-6 w-4 rotate-45 rounded-[100%_0_100%_100%] bg-amber-300 shadow-[0_0_12px_#fde047]"></i></div>
-            <div className="h-14 rounded-t-xl bg-indigo-900/90 border-t border-indigo-500/30"></div>
-            <div className="relative z-10 -mt-3 h-7 rounded-b-full bg-indigo-900/90"></div>
-            <div className="h-24 rounded-b-3xl bg-gradient-to-b from-indigo-600 to-indigo-800 shadow-[inset_0_-10px_0_#3730a3]"></div>
-            <div className="-ml-6 h-3.5 w-63 rounded-full bg-indigo-400/40"></div>
-          </div>
-          <span className="absolute left-20 top-20 text-2xl text-amber-300 select-none animate-pulse">&#10022;</span>
-          <span className="absolute bottom-28 right-14 text-2xl text-purple-300 select-none animate-pulse">&#10022;</span>
+        <div className="relative mx-auto h-96 w-full max-w-lg overflow-hidden rounded-[46%_54%_44%_56%/56%_43%_57%_44%] border border-indigo-700/40 shadow-2xl">
+          <img
+            src={heroImage}
+            alt="Ekemini Eshiet"
+            className="h-full w-full object-cover object-center"
+          />
+          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0B0E1A]/35 via-transparent to-indigo-950/10" />
         </div>
       </section>
 
