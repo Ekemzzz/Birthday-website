@@ -167,7 +167,7 @@ function App() {
         </div>
       </nav>
 
-      <section id="top" className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-6 pb-24 pt-14 lg:grid-cols-2 lg:px-8">
+      <section id="top" className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-6 pb-24 pt-14 lg:grid-cols-2 lg:px-8 pb-32 lg:pb-24">
         <div>
           <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">SEPTEMBER 07 &middot; MY DAY &#10022;</p>
           <h1 className="font-display text-6xl leading-[1.05] tracking-tight text-white sm:text-7xl font-bold">Another year<br /><em className="bg-gradient-to-r from-indigo-300 via-violet-300 to-amber-200 bg-clip-text text-transparent not-italic">of becoming.</em></h1>
@@ -175,7 +175,7 @@ function App() {
           <a href="#wishes" className="mt-8 inline-flex items-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-4 rounded-full text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5">Leave a birthday wish <span className="text-white text-lg">&#8599;</span></a>
         </div>
         {/* Hero image frame — circle portrait */}
-        <div className="relative mx-auto flex items-center justify-center" style={{width: '460px', height: '460px'}}>
+        <div className="relative mx-auto flex items-center justify-center w-64 h-64 sm:w-80 sm:h-80 lg:w-[420px] lg:h-[420px]">
 
           {/* Spinning gradient ring */}
           <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-400 via-purple-500 to-amber-300 animate-spin" style={{animationDuration: '8s', padding: '4px'}}>
