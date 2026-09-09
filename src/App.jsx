@@ -174,13 +174,45 @@ function App() {
           <p className="mt-7 max-w-md leading-7 text-indigo-200/80 text-base">A little corner of the internet to celebrate this chapter, the people I love, and all the good things still on their way.</p>
           <a href="#wishes" className="mt-8 inline-flex items-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-4 rounded-full text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5">Leave a birthday wish <span className="text-white text-lg">&#8599;</span></a>
         </div>
-        <div className="relative mx-auto h-96 w-full max-w-lg overflow-hidden rounded-[46%_54%_44%_56%/56%_43%_57%_44%] border border-indigo-700/40 shadow-2xl">
-          <img
-            src={heroImage}
-            alt="Ekemini Eshiet"
-            className="h-full w-full object-cover object-center"
-          />
-          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-[#0B0E1A]/35 via-transparent to-indigo-950/10" />
+        {/* Hero image frame — circle portrait */}
+        <div className="relative mx-auto flex items-center justify-center" style={{width: '460px', height: '460px'}}>
+
+          {/* Spinning gradient ring */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-400 via-purple-500 to-amber-300 animate-spin" style={{animationDuration: '8s', padding: '4px'}}>
+            <div className="w-full h-full rounded-full bg-[#0B0E1A]" />
+          </div>
+
+          {/* Outer pulse glow */}
+          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-amber-400 opacity-25 blur-2xl scale-110 pointer-events-none" />
+
+          {/* Static border ring so image sits cleanly */}
+          <div className="absolute inset-0 rounded-full p-[4px] bg-gradient-to-br from-indigo-400 via-purple-500 to-amber-300 shadow-2xl shadow-indigo-900/60">
+            <div className="w-full h-full rounded-full overflow-hidden bg-[#0B0E1A]">
+              <img
+                src={heroImage}
+                alt="Ekemini Eshiet"
+                className="w-full h-full object-cover object-top"
+              />
+            </div>
+          </div>
+
+          {/* Floating badge — top right */}
+          <div className="absolute top-2 -right-5 flex h-14 w-14 flex-col items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-rose-500 shadow-lg shadow-amber-500/40 z-10">
+            <span className="text-lg leading-none">&#127881;</span>
+            <span className="text-[9px] font-bold text-white mt-0.5 tracking-wide">B-DAY</span>
+          </div>
+
+          {/* Floating badge — bottom left */}
+          <div className="absolute bottom-4 -left-5 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/40 text-xl z-10">
+            &#127873;
+          </div>
+
+          {/* Name pill below circle */}
+          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-[#121629] border border-indigo-700/50 rounded-full px-4 py-1.5 shadow-lg whitespace-nowrap z-10">
+            <span className="text-amber-400 text-[10px]">&#10022;</span>
+            <span className="text-white text-xs font-semibold tracking-wide">Ekemini Eshiet</span>
+            <span className="text-amber-400 text-[10px]">&#10022;</span>
+          </div>
         </div>
       </section>
 
