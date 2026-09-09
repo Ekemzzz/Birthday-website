@@ -159,7 +159,7 @@ function App() {
       <div className="absolute -left-32 top-10 h-96 w-96 rounded-full bg-indigo-600/15 blur-3xl pointer-events-none"></div>
       <div className="absolute -right-32 top-48 h-96 w-96 rounded-full bg-purple-600/15 blur-3xl pointer-events-none"></div>
 
-      <nav className="relative z-10 mx-auto flex h-22 max-w-6xl items-center justify-between px-6 lg:px-8">
+      <nav className="relative z-20 mx-auto flex h-22 max-w-6xl items-center justify-between px-6 lg:px-8">
         <a href="#top" className="font-display text-4xl italic text-white font-semibold hover:text-amber-300 transition">Dev-Ek</a>
         <div className="flex gap-8 text-sm font-medium text-indigo-200">
           <a href="#about" className="hover:text-amber-300 transition-colors">About me</a>
@@ -167,52 +167,31 @@ function App() {
         </div>
       </nav>
 
-      <section id="top" className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-6 pb-24 pt-14 lg:grid-cols-2 lg:px-8 pb-32 lg:pb-24">
-        <div>
+      <section
+        id="top"
+        className="relative z-10 min-h-[92vh] flex items-end pb-20 px-6 lg:px-8 overflow-hidden"
+      >
+        {/* Background image */}
+        <img
+          src={heroImage}
+          alt=""
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{objectPosition: '85% top'}}
+        />
+
+        {/* Dark gradient overlay — stronger at bottom for text legibility */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E1A] via-[#0B0E1A]/70 to-[#0B0E1A]/20 pointer-events-none" />
+
+        {/* Left vignette — keeps text area dark and readable */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#0B0E1A]/90 via-[#0B0E1A]/50 to-transparent pointer-events-none" />
+
+        {/* Content */}
+        <div className="relative z-10 mx-auto w-full max-w-6xl">
           <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">SEPTEMBER 07 &middot; MY DAY &#10022;</p>
-          <h1 className="font-display text-6xl leading-[1.05] tracking-tight text-white sm:text-7xl font-bold">Another year<br /><em className="bg-gradient-to-r from-indigo-300 via-violet-300 to-amber-200 bg-clip-text text-transparent not-italic">of becoming.</em></h1>
+          <h1 className="font-display text-6xl leading-[1.05] tracking-tight text-white sm:text-7xl lg:text-8xl font-bold max-w-2xl">Another year<br /><em className="bg-gradient-to-r from-indigo-300 via-violet-300 to-amber-200 bg-clip-text text-transparent not-italic">of becoming.</em></h1>
           <p className="mt-7 max-w-md leading-7 text-indigo-200/80 text-base">A little corner of the internet to celebrate this chapter, the people I love, and all the good things still on their way.</p>
           <a href="#wishes" className="mt-8 inline-flex items-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-4 rounded-full text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5">Leave a birthday wish <span className="text-white text-lg">&#8599;</span></a>
-        </div>
-        {/* Hero image frame — circle portrait */}
-        <div className="relative mx-auto flex items-center justify-center w-64 h-64 sm:w-80 sm:h-80 lg:w-[420px] lg:h-[420px]">
-
-          {/* Spinning gradient ring */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-400 via-purple-500 to-amber-300 animate-spin" style={{animationDuration: '8s', padding: '4px'}}>
-            <div className="w-full h-full rounded-full bg-[#0B0E1A]" />
-          </div>
-
-          {/* Outer pulse glow */}
-          <div className="absolute inset-0 rounded-full bg-gradient-to-br from-indigo-500 via-purple-500 to-amber-400 opacity-25 blur-2xl scale-110 pointer-events-none" />
-
-          {/* Static border ring so image sits cleanly */}
-          <div className="absolute inset-0 rounded-full p-[4px] bg-gradient-to-br from-indigo-400 via-purple-500 to-amber-300 shadow-2xl shadow-indigo-900/60">
-            <div className="w-full h-full rounded-full overflow-hidden bg-[#0B0E1A]">
-              <img
-                src={heroImage}
-                alt="Ekemini Eshiet"
-                className="w-full h-full object-cover object-top"
-              />
-            </div>
-          </div>
-
-          {/* Floating badge — top right */}
-          <div className="absolute top-2 -right-5 flex h-14 w-14 flex-col items-center justify-center rounded-full bg-gradient-to-br from-amber-400 to-rose-500 shadow-lg shadow-amber-500/40 z-10">
-            <span className="text-lg leading-none">&#127881;</span>
-            <span className="text-[9px] font-bold text-white mt-0.5 tracking-wide">B-DAY</span>
-          </div>
-
-          {/* Floating badge — bottom left */}
-          <div className="absolute bottom-4 -left-5 flex h-12 w-12 items-center justify-center rounded-full bg-gradient-to-br from-indigo-500 to-purple-600 shadow-lg shadow-indigo-500/40 text-xl z-10">
-            &#127873;
-          </div>
-
-          {/* Name pill below circle */}
-          <div className="absolute -bottom-8 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-[#121629] border border-indigo-700/50 rounded-full px-4 py-1.5 shadow-lg whitespace-nowrap z-10">
-            <span className="text-amber-400 text-[10px]">&#10022;</span>
-            <span className="text-white text-xs font-semibold tracking-wide">Ekemini Eshiet</span>
-            <span className="text-amber-400 text-[10px]">&#10022;</span>
-          </div>
         </div>
       </section>
 
