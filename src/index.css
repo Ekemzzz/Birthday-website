@@ -166,3 +166,19 @@ body { margin: 0; min-width: 320px; background: #0B0E1A; color: #F1F5F9; font-fa
   from { transform: translateY(0); }
   to   { transform: translateY(-10px); }
 }
+
+/* ─── Reduced motion ───────────────────────────────────
+   Honour the OS "reduce motion" setting: snap animations/transitions
+   to their end state instead of playing them, and disable smooth scroll. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-delay: 0s !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    transition-delay: 0s !important;
+  }
+}
