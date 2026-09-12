@@ -101,7 +101,7 @@ function BirthdaySplash({ onDone }) {
       <div className="splash-blob splash-blob--left" />
       <div className="splash-blob splash-blob--right" />
       <div className="splash-content" data-phase={phase}>
-        <p className="splash-eyebrow">&#10022; &nbsp; September 07 &nbsp; &#10022;</p>
+        <p className="splash-eyebrow">&#10022; &nbsp; October 08 &nbsp; &#10022;</p>
         <h1 className="splash-title">
           <span className="splash-happy">Happy</span>
           <span className="splash-birthday">Birthday</span>
@@ -180,7 +180,7 @@ function Home() {
 
         {/* Content */}
         <div className="relative z-10 mx-auto w-full max-w-6xl">
-          <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">SEPTEMBER 07 &middot; MY DAY &#10022;</p>
+          <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">OCTOBER 08 &middot; MY BIRTHDAY &#10022;</p>
           <h1 className="font-display text-6xl leading-[1.05] tracking-tight text-white sm:text-7xl lg:text-8xl font-bold max-w-2xl">Another year<br /><em className="bg-gradient-to-r from-indigo-300 via-violet-300 to-amber-200 bg-clip-text text-transparent not-italic">of becoming.</em></h1>
           <p className="mt-7 max-w-md leading-7 text-indigo-200/80 text-base">A little corner of the internet to celebrate this chapter, the people I love, and all the good things still on their way.</p>
           <a href="#wishes" className="mt-8 inline-flex items-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-4 rounded-full text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5">Leave a birthday wish <span className="text-white text-lg">&#8599;</span></a>
