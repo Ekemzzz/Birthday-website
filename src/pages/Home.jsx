@@ -119,6 +119,12 @@ function BirthdaySplash({ onDone }) {
     }
   }, [])
 
+  /* Lock body scroll and force splash to cover full viewport on mobile */
+  useEffect(() => {
+    document.body.classList.add('splash-open')
+    return () => document.body.classList.remove('splash-open')
+  }, [])
+
   /* Animation timeline — shortened when reduced-motion is preferred */
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -148,7 +154,9 @@ function BirthdaySplash({ onDone }) {
 }
 
 function Home() {
-  const [splashDone, setSplashDone] = useState(false)
+  const [splashDone, setSplashDone] = useState(() => {
+    return sessionStorage.getItem('splash-shown') === 'true'
+  })
   const [form, setForm] = useState({ name: '', message: '' })
   const [status, setStatus] = useState('idle') // idle | sending | success | error
 
@@ -183,8 +191,8 @@ function Home() {
   }
 
   return <>
-    {!splashDone && <BirthdaySplash onDone={() => setSplashDone(true)} />}
-    <main className={`relative overflow-hidden text-slate-100 bg-[#0B0E1A] main-fade ${splashDone ? 'main-visible' : ''}`}>
+    {!splashDone && <BirthdaySplash onDone={() => { sessionStorage.setItem('splash-shown', 'true'); setSplashDone(true) }} />}
+    <main className={`relative overflow-hidden text-slate-100 bg-[#0B0E1A] ${splashDone ? 'main-visible' : 'main-fade'}`}>
       {/* Ambient Glows */}
       <div className="absolute -left-32 top-10 h-96 w-96 rounded-full bg-indigo-600/15 blur-3xl pointer-events-none"></div>
       <div className="absolute -right-32 top-48 h-96 w-96 rounded-full bg-purple-600/15 blur-3xl pointer-events-none"></div>

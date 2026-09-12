@@ -9,13 +9,21 @@ body { margin: 0; min-width: 320px; background: #0B0E1A; color: #F1F5F9; font-fa
 /* ─── Birthday Splash ───────────────────────────────────────────── */
 .splash-root {
   position: fixed;
-  inset: 0;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
   z-index: 9999;
   display: flex;
   align-items: center;
   justify-content: center;
   background: #0B0E1A;
   transition: opacity 0.9s ease, transform 0.9s ease;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+  overflow: hidden;
 }
 .splash-root[data-phase="exit"] {
   opacity: 0;
@@ -51,7 +59,10 @@ body { margin: 0; min-width: 320px; background: #0B0E1A; color: #F1F5F9; font-fa
 }
 
 .splash-content {
-  position: relative;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.96);
   z-index: 10;
   text-align: center;
   display: flex;
@@ -59,17 +70,18 @@ body { margin: 0; min-width: 320px; background: #0B0E1A; color: #F1F5F9; font-fa
   align-items: center;
   gap: 0.5rem;
   opacity: 0;
-  transform: translateY(28px) scale(0.96);
+  width: 90%;
+  max-width: 600px;
   transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1);
 }
 .splash-content[data-phase="enter"],
 .splash-content[data-phase="hold"] {
   opacity: 1;
-  transform: translateY(0) scale(1);
+  transform: translate(-50%, -50%) scale(1);
 }
 .splash-content[data-phase="exit"] {
   opacity: 0;
-  transform: translateY(-20px) scale(1.03);
+  transform: translate(-50%, -58%) scale(1.03);
 }
 
 .splash-eyebrow {
@@ -147,6 +159,12 @@ body { margin: 0; min-width: 320px; background: #0B0E1A; color: #F1F5F9; font-fa
 }
 .main-visible {
   opacity: 1;
+}
+
+/* Lock scroll while splash is showing */
+body.splash-open {
+  overflow: hidden;
+  height: 100%;
 }
 
 /* Keyframes */
