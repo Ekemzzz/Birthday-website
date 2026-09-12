@@ -2,6 +2,38 @@ import { useEffect, useState, useRef } from 'react'
 import { supabase } from '../lib/supabase'
 import heroImage from '../assets/hero.webp'
 
+/* ─── Typewriter hook ───────────────────────────────────────────── */
+function useTypewriter(lines, { delay = 500, speed = 55 } = {}) {
+  const [displayed, setDisplayed] = useState([])   // fully typed lines
+  const [current, setCurrent] = useState('')        // line being typed
+  const [lineIdx, setLineIdx] = useState(0)         // which line we're on
+  const [done, setDone] = useState(false)
+
+  useEffect(() => {
+    if (lineIdx >= lines.length) { setDone(true); return }
+
+    // pause before starting the first character of a new line
+    const startPause = setTimeout(() => {
+      let charIdx = 0
+      const interval = setInterval(() => {
+        charIdx++
+        setCurrent(lines[lineIdx].slice(0, charIdx))
+        if (charIdx === lines[lineIdx].length) {
+          clearInterval(interval)
+          setDisplayed((prev) => [...prev, lines[lineIdx]])
+          setCurrent('')
+          setLineIdx((i) => i + 1)
+        }
+      }, speed)
+      return () => clearInterval(interval)
+    }, lineIdx === 0 ? delay : 300)
+
+    return () => clearTimeout(startPause)
+  }, [lineIdx, lines, delay, speed])
+
+  return { displayed, current, done }
+}
+
 /* ─── Birthday Splash Screen ───────────────────────────────────── */
 function BirthdaySplash({ onDone }) {
   const canvasRef = useRef(null)
@@ -120,6 +152,12 @@ function Home() {
   const [form, setForm] = useState({ name: '', message: '' })
   const [status, setStatus] = useState('idle') // idle | sending | success | error
 
+  const headingLines = ['Another year of', 'growing, learning', 'and evolving.']
+  const { displayed, current, done: typeDone } = useTypewriter(
+    splashDone ? headingLines : [],
+    { delay: 400, speed: 55 }
+  )
+
   async function submitWish(e) {
     e.preventDefault()
     if (!form.name.trim() || !form.message.trim()) return
@@ -161,7 +199,7 @@ function Home() {
 
       <section
         id="top"
-        className="relative z-10 min-h-[92vh] flex items-end pb-20 px-6 lg:px-8 overflow-hidden"
+        className="relative z-10 min-h-[60vh] sm:min-h-[75vh] lg:min-h-[92vh] flex items-center sm:items-end pb-0 sm:pb-16 lg:pb-20 px-6 lg:px-8 overflow-hidden"
       >
         {/* Background image */}
         <img
@@ -180,10 +218,30 @@ function Home() {
 
         {/* Content */}
         <div className="relative z-10 mx-auto w-full max-w-6xl">
-          <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">OCTOBER 08 &middot; MY BIRTHDAY &#10022;</p>
-          <h1 className="font-display text-6xl leading-[1.05] tracking-tight text-white sm:text-7xl lg:text-8xl font-bold max-w-2xl">Another year<br /><em className="bg-gradient-to-r from-indigo-300 via-violet-300 to-amber-200 bg-clip-text text-transparent not-italic">of becoming.</em></h1>
-          <p className="mt-7 max-w-md leading-7 text-indigo-200/80 text-base">A little corner of the internet to celebrate this chapter, the people I love, and all the good things still on their way.</p>
-          <a href="#wishes" className="mt-8 inline-flex items-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-4 rounded-full text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5">Leave a birthday wish <span className="text-white text-lg">&#8599;</span></a>
+          <p className="font-mono mb-3 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">OCTOBER 08 &middot; MY BIRTHDAY &#10022;</p>
+          <h1 className="font-display leading-[1.1] tracking-tight text-white font-bold max-w-2xl" style={{fontSize: 'clamp(1.6rem, 5vw, 3.75rem)'}}>
+            {/* Fully typed lines */}
+            {displayed.map((line, i) => (
+              <span key={i} className="block">
+                {i === 0
+                  ? <span className="text-white">{line}</span>
+                  : <em className="bg-gradient-to-r from-indigo-300 via-violet-300 to-amber-200 bg-clip-text text-transparent not-italic">{line}</em>
+                }
+              </span>
+            ))}
+            {/* Line currently being typed */}
+            {!typeDone && (
+              <span className="block">
+                {displayed.length === 0
+                  ? <span className="text-white">{current}</span>
+                  : <em className="bg-gradient-to-r from-indigo-300 via-violet-300 to-amber-200 bg-clip-text text-transparent not-italic">{current}</em>
+                }
+                <span className="typing-cursor" aria-hidden="true" />
+              </span>
+            )}
+          </h1>
+          <p className="mt-4 max-w-md leading-7 text-indigo-200/80 text-base">Grateful for every moment that shaped me, and excited for everything still to come.</p>
+          <a href="#wishes" className="mt-5 inline-flex items-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-3.5 rounded-full text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5">Leave a birthday wish <span className="text-white text-lg">&#8599;</span></a>
         </div>
       </section>
 
