@@ -216,3 +216,36 @@ body.splash-open {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
 }
+
+/* ─── Frosted nav ───────────────────────────────────────────────── */
+.nav-frosted {
+  background: rgba(11, 14, 26, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(99, 102, 241, 0.15);
+}
+
+/* ─── Section reveal on scroll ──────────────────────────────────── */
+.reveal {
+  opacity: 0;
+  transform: translateY(36px);
+  transition: opacity 0.7s cubic-bezier(.22,1,.36,1), transform 0.7s cubic-bezier(.22,1,.36,1);
+}
+.reveal.revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ─── Hero subtitle / button delayed reveal ─────────────────────── */
+.hero-after-type {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+  pointer-events: none;
+}
+.hero-after-type--visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+

@@ -159,6 +159,34 @@ function Home() {
   })
   const [form, setForm] = useState({ name: '', message: '' })
   const [status, setStatus] = useState('idle') // idle | sending | success | error
+  const [scrolled, setScrolled] = useState(false)       // #2 frosted nav
+  const [menuOpen, setMenuOpen] = useState(false)        // #3 hamburger
+
+  // #2 — frosted nav on scroll
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 40)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  // close mobile menu on resize to desktop
+  useEffect(() => {
+    const onResize = () => { if (window.innerWidth >= 640) setMenuOpen(false) }
+    window.addEventListener('resize', onResize)
+    return () => window.removeEventListener('resize', onResize)
+  }, [])
+
+  // #4 — intersection observer for section entrance animations
+  useEffect(() => {
+    const els = document.querySelectorAll('.reveal')
+    if (!els.length) return
+    const observer = new IntersectionObserver(
+      (entries) => entries.forEach((e) => { if (e.isIntersecting) { e.target.classList.add('revealed'); observer.unobserve(e.target) } }),
+      { threshold: 0.15 }
+    )
+    els.forEach((el) => observer.observe(el))
+    return () => observer.disconnect()
+  }, [splashDone])
 
   const headingLines = ['Another year of', 'growing, learning', 'and evolving.']
   const { displayed, current, done: typeDone } = useTypewriter(
@@ -169,91 +197,98 @@ function Home() {
   async function submitWish(e) {
     e.preventDefault()
     if (!form.name.trim() || !form.message.trim()) return
-    if (!supabase) {
-      setStatus('error')
-      return
-    }
+    if (!supabase) { setStatus('error'); return }
     setStatus('sending')
     try {
-      const { error } = await supabase.from('wishes').insert({
-        name: form.name.trim(),
-        message: form.message.trim(),
-      })
-      if (error) {
-        setStatus('error')
-        return
-      }
+      const { error } = await supabase.from('wishes').insert({ name: form.name.trim(), message: form.message.trim() })
+      if (error) { setStatus('error'); return }
       setForm({ name: '', message: '' })
       setStatus('success')
-    } catch {
-      setStatus('error')
-    }
+    } catch { setStatus('error') }
   }
 
   return <>
     {!splashDone && <BirthdaySplash onDone={() => { sessionStorage.setItem('splash-shown', 'true'); setSplashDone(true) }} />}
     <main className={`relative overflow-hidden text-slate-100 bg-[#0B0E1A] ${splashDone ? 'main-visible' : 'main-fade'}`}>
       {/* Ambient Glows */}
-      <div className="absolute -left-32 top-10 h-96 w-96 rounded-full bg-indigo-600/15 blur-3xl pointer-events-none"></div>
-      <div className="absolute -right-32 top-48 h-96 w-96 rounded-full bg-purple-600/15 blur-3xl pointer-events-none"></div>
+      <div className="absolute -left-32 top-10 h-96 w-96 rounded-full bg-indigo-600/15 blur-3xl pointer-events-none" />
+      <div className="absolute -right-32 top-48 h-96 w-96 rounded-full bg-purple-600/15 blur-3xl pointer-events-none" />
 
-      <nav className="relative z-20 mx-auto flex h-22 max-w-6xl items-center justify-between px-6 lg:px-8">
-        <a href="#top" className="font-display text-4xl italic text-white font-semibold hover:text-amber-300 transition">Dev-Ek</a>
-        <div className="flex gap-8 text-sm font-medium text-indigo-200">
-          <a href="#about" className="hover:text-amber-300 transition-colors">About me</a>
-          <a href="#wishes" className="hover:text-amber-300 transition-colors">Send wishes</a>
+      {/* ── Nav ── */}
+      <nav className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 ${scrolled ? 'nav-frosted' : 'bg-transparent'}`}>
+        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 lg:px-8">
+          <a href="#top" className="font-display text-3xl italic text-white font-semibold hover:text-amber-300 transition">Dev-Ek</a>
+
+          {/* Desktop links */}
+          <div className="hidden sm:flex gap-8 text-sm font-medium text-indigo-200">
+            <a href="#about"  className="hover:text-amber-300 transition-colors">About me</a>
+            <a href="#wishes" className="hover:text-amber-300 transition-colors">Send wishes</a>
+          </div>
+
+          {/* Hamburger button — mobile only */}
+          <button
+            className="sm:hidden flex flex-col justify-center gap-[5px] w-8 h-8 relative z-40"
+            onClick={() => setMenuOpen((o) => !o)}
+            aria-label={menuOpen ? 'Close menu' : 'Open menu'}
+            aria-expanded={menuOpen}
+          >
+            <span className={`block h-0.5 w-6 bg-white rounded transition-all duration-300 ${menuOpen ? 'rotate-45 translate-y-[7px]' : ''}`} />
+            <span className={`block h-0.5 w-6 bg-white rounded transition-all duration-300 ${menuOpen ? 'opacity-0' : ''}`} />
+            <span className={`block h-0.5 w-6 bg-white rounded transition-all duration-300 ${menuOpen ? '-rotate-45 -translate-y-[7px]' : ''}`} />
+          </button>
+        </div>
+
+        {/* Mobile dropdown */}
+        <div className={`sm:hidden overflow-hidden transition-all duration-300 ${menuOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'} nav-frosted`}>
+          <div className="flex flex-col px-6 py-4 gap-4 text-sm font-medium text-indigo-200">
+            <a href="#about"  onClick={() => setMenuOpen(false)} className="hover:text-amber-300 transition-colors">About me</a>
+            <a href="#wishes" onClick={() => setMenuOpen(false)} className="hover:text-amber-300 transition-colors">Send wishes</a>
+          </div>
         </div>
       </nav>
 
+      {/* ── Hero ── */}
       <section
         id="top"
         className="relative z-10 min-h-[60vh] sm:min-h-[75vh] lg:min-h-[92vh] flex items-center sm:items-end pb-0 sm:pb-16 lg:pb-20 px-6 lg:px-8 overflow-hidden"
       >
-        {/* Background image */}
-        <img
-          src={heroImage}
-          alt=""
-          aria-hidden="true"
-          className="absolute inset-0 w-full h-full object-cover"
-          style={{objectPosition: '85% top'}}
-        />
-
-        {/* Dark gradient overlay — stronger at bottom for text legibility */}
+        <img src={heroImage} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover" style={{objectPosition: '85% top'}} />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E1A] via-[#0B0E1A]/70 to-[#0B0E1A]/20 pointer-events-none" />
-
-        {/* Left vignette — keeps text area dark and readable */}
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0E1A]/90 via-[#0B0E1A]/50 to-transparent pointer-events-none" />
 
-        {/* Content */}
+        {/* Hero content */}
         <div className="relative z-10 mx-auto w-full max-w-6xl">
           <p className="font-mono mb-3 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">OCTOBER 08 &middot; MY BIRTHDAY &#10022;</p>
           <h1 className="font-display leading-[1.1] tracking-tight text-white font-bold max-w-2xl" style={{fontSize: 'clamp(1.6rem, 5vw, 3.75rem)'}}>
-            {/* Fully typed lines */}
             {displayed.map((line, i) => (
               <span key={i} className="block">
                 {i === 0
                   ? <span className="text-white">{line}</span>
-                  : <em className="bg-gradient-to-r from-indigo-300 via-violet-300 to-amber-200 bg-clip-text text-transparent not-italic">{line}</em>
-                }
+                  : <em className="bg-gradient-to-r from-indigo-300 via-violet-300 to-amber-200 bg-clip-text text-transparent not-italic">{line}</em>}
               </span>
             ))}
-            {/* Line currently being typed */}
             {!typeDone && (
               <span className="block">
                 {displayed.length === 0
                   ? <span className="text-white">{current}</span>
-                  : <em className="bg-gradient-to-r from-indigo-300 via-violet-300 to-amber-200 bg-clip-text text-transparent not-italic">{current}</em>
-                }
+                  : <em className="bg-gradient-to-r from-indigo-300 via-violet-300 to-amber-200 bg-clip-text text-transparent not-italic">{current}</em>}
                 <span className="typing-cursor" aria-hidden="true" />
               </span>
             )}
           </h1>
-          <p className="mt-4 max-w-md leading-7 text-indigo-200/80 text-base">Grateful for every moment that shaped me, and excited for everything still to come.</p>
-          <a href="#wishes" className="mt-5 inline-flex items-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-3.5 rounded-full text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5">Leave a birthday wish <span className="text-white text-lg">&#8599;</span></a>
+
+          {/* #5 — subtitle + button fade in after typewriter done */}
+          <div className={`hero-after-type ${typeDone ? 'hero-after-type--visible' : ''}`}>
+            <p className="mt-4 max-w-md leading-7 text-indigo-200/80 text-base">Grateful for every moment that shaped me, and excited for everything still to come.</p>
+            <a href="#wishes" className="mt-5 inline-flex items-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-3.5 rounded-full text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5">Leave a birthday wish <span className="text-white text-lg">&#8599;</span></a>
+          </div>
         </div>
+
+
       </section>
 
-      <section id="about" className="relative z-10 bg-[#121629] border-y border-indigo-900/60 px-6 py-20 lg:grid-cols-2 lg:gap-20 lg:px-[max(2rem,calc((100%-68rem)/2))] grid gap-8">
+      {/* ── About ── */}
+      <section id="about" className="reveal relative z-10 bg-[#121629] border-y border-indigo-900/60 px-6 py-20 lg:grid-cols-2 lg:gap-20 lg:px-[max(2rem,calc((100%-68rem)/2))] grid gap-8">
         <div>
           <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">A LITTLE ABOUT ME &#10022;</p>
           <h2 className="font-display text-5xl leading-tight tracking-tight text-white font-bold">Growing, dreaming,<br />and making it count.</h2>
@@ -261,14 +296,13 @@ function Home() {
         <p className="max-w-md pt-5 leading-8 text-indigo-200/80 text-base">I&rsquo;m someone who finds joy in good conversations, fresh ideas, and making the ordinary feel a little more special. This year, I&rsquo;m choosing gratitude, courage, and plenty of cake.</p>
       </section>
 
-      <section id="wishes" className="relative z-10 mx-auto max-w-3xl px-6 py-24 lg:px-8">
+      {/* ── Wishes ── */}
+      <section id="wishes" className="reveal relative z-10 mx-auto max-w-3xl px-6 py-24 lg:px-8">
         <div className="mb-12 text-center">
           <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">MAKE MY DAY &#10022;</p>
           <h2 className="font-display text-5xl tracking-tight text-white font-bold">Send some love.</h2>
           <p className="mx-auto mt-5 max-w-md leading-7 text-indigo-200/80 text-base">Your words mean more than you know. Leave a little note for the birthday person &mdash; it goes straight to her, and only her.</p>
         </div>
-
-        {/* Wishes are sent privately to the owner — nothing is displayed publicly */}
         <form onSubmit={submitWish} className="flex flex-col gap-5 bg-[#121629] p-8 rounded-2xl border border-indigo-800/60 shadow-xl">
           <label className="flex flex-col gap-2 text-sm font-medium text-indigo-200">Your name
             <input className="border border-indigo-800/80 bg-[#0B0E1A] rounded-xl p-3.5 text-white outline-indigo-500 focus:border-indigo-400 transition-colors placeholder:text-indigo-400/50" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="What should I call you?" maxLength="40" required />
@@ -278,7 +312,7 @@ function Home() {
           </label>
           <button disabled={status === 'sending'} className="inline-flex w-fit items-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-3.5 rounded-full text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0" type="submit">{status === 'sending' ? 'Sending...' : 'Send my wish'} <span className="text-white">&#9829;</span></button>
           {status === 'success' && <p className="text-sm font-medium text-emerald-400">Your wish is on its way to Ekemini. Thank you! &#10022;</p>}
-          {status === 'error' && <p className="text-sm font-medium text-rose-400">Something went wrong sending your wish. Please try again in a moment.</p>}
+          {status === 'error'   && <p className="text-sm font-medium text-rose-400">Something went wrong. Please try again.</p>}
         </form>
       </section>
 
