@@ -301,7 +301,7 @@ function Home() {
         <div className="mb-12 text-center">
           <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">MAKE MY DAY</p>
           <h2 className="font-display text-5xl tracking-tight text-white font-bold">Send some love.</h2>
-          <p className="mx-auto mt-5 max-w-md leading-7 text-indigo-200/80 text-base">Your words mean more than you know. Leave a little note for the birthday person &mdash; it goes straight to her, and only her.</p>
+          <p className="mx-auto mt-5 max-w-md leading-7 text-indigo-200/80 text-base">Your words mean more than you know. Leave a little note for the birthday person.</p>
         </div>
         <form onSubmit={submitWish} className="flex flex-col gap-5 bg-[#121629] p-8 rounded-2xl border border-indigo-800/60 shadow-xl">
           <label className="flex flex-col gap-2 text-sm font-medium text-indigo-200">Your name
