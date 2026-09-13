@@ -139,7 +139,7 @@ function BirthdaySplash({ onDone }) {
       <div className="splash-blob splash-blob--left" />
       <div className="splash-blob splash-blob--right" />
       <div className="splash-content" data-phase={phase}>
-        <p className="splash-eyebrow">&#10022; &nbsp; October 08 &nbsp; &#10022;</p>
+        <p className="splash-eyebrow">October 08</p>
         <h1 className="splash-title">
           <span className="splash-happy">Happy</span>
           <span className="splash-birthday">Birthday</span>
@@ -258,7 +258,7 @@ function Home() {
 
         {/* Hero content */}
         <div className="relative z-10 mx-auto w-full max-w-6xl">
-          <p className="font-mono mb-3 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">OCTOBER 08 &middot; MY BIRTHDAY &#10022;</p>
+          <p className="font-mono mb-3 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">OCTOBER 08 &middot; MY BIRTHDAY</p>
           <h1 className="font-display leading-[1.1] tracking-tight text-white font-bold max-w-2xl" style={{fontSize: 'clamp(1.6rem, 5vw, 3.75rem)'}}>
             {displayed.map((line, i) => (
               <span key={i} className="block">
@@ -290,7 +290,7 @@ function Home() {
       {/* ── About ── */}
       <section id="about" className="reveal relative z-10 bg-[#121629] border-y border-indigo-900/60 px-6 py-20 lg:grid-cols-2 lg:gap-20 lg:px-[max(2rem,calc((100%-68rem)/2))] grid gap-8">
         <div>
-          <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">A LITTLE ABOUT ME &#10022;</p>
+          <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">A LITTLE ABOUT ME</p>
           <h2 className="font-display text-5xl leading-tight tracking-tight text-white font-bold">Growing, dreaming,<br />and making it count.</h2>
         </div>
         <p className="max-w-md pt-5 leading-8 text-indigo-200/80 text-base">I&rsquo;m someone who finds joy in good conversations, fresh ideas, and making the ordinary feel a little more special. This year, I&rsquo;m choosing gratitude, courage, and plenty of cake.</p>
@@ -299,7 +299,7 @@ function Home() {
       {/* ── Wishes ── */}
       <section id="wishes" className="reveal relative z-10 mx-auto max-w-3xl px-6 py-24 lg:px-8">
         <div className="mb-12 text-center">
-          <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">MAKE MY DAY &#10022;</p>
+          <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">MAKE MY DAY</p>
           <h2 className="font-display text-5xl tracking-tight text-white font-bold">Send some love.</h2>
           <p className="mx-auto mt-5 max-w-md leading-7 text-indigo-200/80 text-base">Your words mean more than you know. Leave a little note for the birthday person &mdash; it goes straight to her, and only her.</p>
         </div>
@@ -311,7 +311,7 @@ function Home() {
             <textarea className="h-32 resize-y border border-indigo-800/80 bg-[#0B0E1A] rounded-xl p-3.5 text-white outline-indigo-500 focus:border-indigo-400 transition-colors placeholder:text-indigo-400/50" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Write something lovely..." maxLength="300" required />
           </label>
           <button disabled={status === 'sending'} className="inline-flex w-fit items-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-3.5 rounded-full text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0" type="submit">{status === 'sending' ? 'Sending...' : 'Send my wish'} <span className="text-white">&#9829;</span></button>
-          {status === 'success' && <p className="text-sm font-medium text-emerald-400">Your wish is on its way to Ekemini. Thank you! &#10022;</p>}
+          {status === 'success' && <p className="text-sm font-medium text-emerald-400">Your wish is on its way to Ekemini. Thank you!</p>}
           {status === 'error'   && <p className="text-sm font-medium text-rose-400">Something went wrong. Please try again.</p>}
         </form>
       </section>
