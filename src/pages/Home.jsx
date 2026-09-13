@@ -293,7 +293,7 @@ function Home() {
           <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">A LITTLE ABOUT ME</p>
           <h2 className="font-display text-5xl leading-tight tracking-tight text-white font-bold">Growing, dreaming,<br />and making it count.</h2>
         </div>
-        <p className="max-w-md pt-5 leading-8 text-indigo-200/80 text-base">I&rsquo;m someone who finds joy in good conversations, fresh ideas, and making the ordinary feel a little more special. This year, I&rsquo;m choosing gratitude, courage, and plenty of cake.</p>
+        <p className="max-w-md pt-5 leading-8 text-indigo-200/80 text-base">I am someone who loves exploring new things, finds joy in good conversations, fresh ideas. This year, I am choosing to focus more on the things that matter, working hard and trying out new things.</p>
       </section>
 
       {/* ── Wishes ── */}
