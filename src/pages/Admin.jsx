@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
-import { useAuth } from '../lib/auth'
+import { AuthProvider, useAuth } from '../lib/auth'
 
 /* Card accents for wishes, mirroring the public site's palette. */
 const cardTones = [
@@ -11,9 +11,18 @@ const cardTones = [
 ]
 
 /* ─── Protected admin route ───────────────────────────────────────
-   Not logged in → login form. Logged in → the private wishes dashboard.
-   This component IS the guard: nothing renders unless there's a session. */
+   AuthProvider is mounted here (not app-wide) so the public site never
+   downloads Supabase auth. AdminRoute IS the guard: no session → login
+   form; session → the private wishes dashboard. */
 export default function Admin() {
+  return (
+    <AuthProvider>
+      <AdminRoute />
+    </AuthProvider>
+  )
+}
+
+function AdminRoute() {
   const { user, loading, signIn, signOut } = useAuth()
 
   if (!supabase) {
