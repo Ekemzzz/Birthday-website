@@ -14,9 +14,10 @@ function useTypewriter(lines, { delay = 500, speed = 55 } = {}) {
     if (lineIdx >= lines.length) return
 
     // pause before starting the first character of a new line
+    let interval
     const startPause = setTimeout(() => {
       let charIdx = 0
-      const interval = setInterval(() => {
+      interval = setInterval(() => {
         charIdx++
         setCurrent(lines[lineIdx].slice(0, charIdx))
         if (charIdx === lines[lineIdx].length) {
@@ -26,10 +27,15 @@ function useTypewriter(lines, { delay = 500, speed = 55 } = {}) {
           setLineIdx((i) => i + 1)
         }
       }, speed)
-      return () => clearInterval(interval)
     }, lineIdx === 0 ? delay : 140)
 
-    return () => clearTimeout(startPause)
+    // Clear BOTH timers on re-run/unmount. The interval used to be "cleaned up"
+    // inside the setTimeout callback (a no-op), so a leaked interval kept typing
+    // and pushed duplicate lines into `displayed`.
+    return () => {
+      clearTimeout(startPause)
+      if (interval) clearInterval(interval)
+    }
   }, [lineIdx, lines, delay, speed])
 
   return { displayed, current, done }
@@ -156,6 +162,11 @@ function BirthdaySplash({ onDone }) {
   )
 }
 
+/* Hero heading lines, typed out one character at a time. Module scope keeps the
+   array identity stable across renders — a fresh array each render would
+   re-trigger the typewriter effect every frame and leak typing intervals. */
+const HEADING_LINES = ['Another year of', 'growing, learning', 'and evolving.']
+
 function Home() {
   const [splashDone, setSplashDone] = useState(() => {
     return sessionStorage.getItem('splash-shown') === 'true'
@@ -191,9 +202,8 @@ function Home() {
     return () => observer.disconnect()
   }, [splashDone])
 
-  const headingLines = ['Another year of', 'growing, learning', 'and evolving.']
   const { displayed, current, done: typeDone } = useTypewriter(
-    splashDone ? headingLines : [],
+    splashDone ? HEADING_LINES : [],
     { delay: 200, speed: 28 }
   )
 
