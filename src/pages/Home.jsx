@@ -7,10 +7,12 @@ function useTypewriter(lines, { delay = 500, speed = 55 } = {}) {
   const [displayed, setDisplayed] = useState([])   // fully typed lines
   const [current, setCurrent] = useState('')        // line being typed
   const [lineIdx, setLineIdx] = useState(0)         // which line we're on
-  const [done, setDone] = useState(false)
+  // Derived (not stored): flips back to false when `lines` changes from [] to
+  // the real heading lines, and avoids a synchronous setState inside the effect.
+  const done = lineIdx >= lines.length
 
   useEffect(() => {
-    if (lineIdx >= lines.length) { setDone(true); return }
+    if (lineIdx >= lines.length) return
 
     // pause before starting the first character of a new line
     const startPause = setTimeout(() => {
@@ -216,7 +218,7 @@ function Home() {
 
       {/* ── Nav ── */}
       <nav className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 ${scrolled ? 'nav-frosted' : 'bg-transparent'}`}>
-        <div className="mx-auto flex h-16 max-w-6xl items-center justify-between px-6 lg:px-8">
+        <div className="mx-auto flex h-16 w-full max-w-6xl 2xl:max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
           <a href="#top" className="font-display text-3xl italic text-white font-semibold hover:text-amber-300 transition">Dev-Ek</a>
 
           {/* Desktop links */}
@@ -250,16 +252,16 @@ function Home() {
       {/* ── Hero ── */}
       <section
         id="top"
-        className="relative z-10 min-h-[60vh] sm:min-h-[75vh] lg:min-h-[92vh] flex items-center sm:items-end pb-0 sm:pb-16 lg:pb-20 px-6 lg:px-8 overflow-hidden"
+        className="relative z-10 min-h-[60vh] sm:min-h-[75vh] lg:min-h-[92vh] flex items-center sm:items-end pb-0 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
       >
         <img src={heroImage} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover" style={{objectPosition: '85% top'}} />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E1A] via-[#0B0E1A]/70 to-[#0B0E1A]/20 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0E1A]/90 via-[#0B0E1A]/50 to-transparent pointer-events-none" />
 
         {/* Hero content */}
-        <div className="relative z-10 mx-auto w-full max-w-6xl">
+        <div className="relative z-10 mx-auto w-full max-w-6xl 2xl:max-w-7xl">
           <p className="font-mono mb-3 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">OCTOBER 08 &middot; MY BIRTHDAY</p>
-          <h1 className="font-display leading-[1.1] tracking-tight text-white font-bold max-w-2xl" style={{fontSize: 'clamp(1.6rem, 5vw, 3.75rem)'}}>
+          <h1 className="font-display leading-[1.1] tracking-tight text-white font-bold max-w-2xl" style={{fontSize: 'clamp(1.7rem, 5vw, 4.25rem)'}}>
             {displayed.map((line, i) => (
               <span key={i} className="block">
                 {i === 0
@@ -288,22 +290,22 @@ function Home() {
       </section>
 
       {/* ── About ── */}
-      <section id="about" className="reveal relative z-10 bg-[#121629] border-y border-indigo-900/60 px-6 py-20 lg:grid-cols-2 lg:gap-20 lg:px-[max(2rem,calc((100%-68rem)/2))] grid gap-8">
+      <section id="about" className="reveal relative z-10 bg-[#121629] border-y border-indigo-900/60 px-4 sm:px-6 py-16 sm:py-20 lg:grid-cols-2 lg:gap-20 lg:px-[max(2rem,calc((100%-68rem)/2))] 2xl:px-[max(2rem,calc((100%-76rem)/2))] grid gap-8">
         <div>
           <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">A LITTLE ABOUT ME</p>
-          <h2 className="font-display text-5xl leading-tight tracking-tight text-white font-bold">Growing, dreaming,<br />and making it count.</h2>
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight text-white font-bold">Growing, dreaming,<br />and making it count.</h2>
         </div>
         <p className="max-w-md pt-5 leading-8 text-indigo-200/80 text-base">I am someone who loves exploring new things, finds joy in good conversations, fresh ideas. This year, I am choosing to focus more on the things that matter, working hard and trying out new things.</p>
       </section>
 
       {/* ── Wishes ── */}
-      <section id="wishes" className="reveal relative z-10 mx-auto max-w-3xl px-6 py-24 lg:px-8">
+      <section id="wishes" className="reveal relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 py-20 sm:py-24 lg:px-8">
         <div className="mb-12 text-center">
           <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">MAKE MY DAY</p>
-          <h2 className="font-display text-5xl tracking-tight text-white font-bold">Send some love.</h2>
+          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl tracking-tight text-white font-bold">Send some love.</h2>
           <p className="mx-auto mt-5 max-w-md leading-7 text-indigo-200/80 text-base">Your words mean more than you know. Leave a little note for the birthday person.</p>
         </div>
-        <form onSubmit={submitWish} className="flex flex-col gap-5 bg-[#121629] p-8 rounded-2xl border border-indigo-800/60 shadow-xl">
+        <form onSubmit={submitWish} className="flex flex-col gap-5 bg-[#121629] p-6 sm:p-8 rounded-2xl border border-indigo-800/60 shadow-xl">
           <label className="flex flex-col gap-2 text-sm font-medium text-indigo-200">Your name
             <input className="border border-indigo-800/80 bg-[#0B0E1A] rounded-xl p-3.5 text-white outline-indigo-500 focus:border-indigo-400 transition-colors placeholder:text-indigo-400/50" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="What should I call you?" maxLength="40" required />
           </label>
