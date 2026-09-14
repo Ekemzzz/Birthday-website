@@ -59,7 +59,7 @@ function Login({ onSignIn }) {
     <div className="min-h-screen bg-[#0B0E1A] flex items-center justify-center px-4 sm:px-6">
       <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col gap-5 bg-[#121629] p-6 sm:p-8 rounded-2xl border border-indigo-800/60 shadow-xl">
         <div>
-          <p className="font-mono mb-2 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">Private area &#10022;</p>
+          <p className="font-mono mb-2 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">Private area</p>
           <h1 className="font-display text-2xl sm:text-3xl text-white font-bold">Admin sign in</h1>
           <p className="mt-2 text-sm text-indigo-200/70">Only Ekemini can view the birthday wishes.</p>
         </div>
@@ -122,7 +122,7 @@ function Dashboard({ user, onSignOut }) {
       <header className="sticky top-0 z-10 border-b border-indigo-900/60 bg-[#0B0E1A]/90 backdrop-blur">
         <div className="mx-auto flex w-full max-w-5xl 2xl:max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-3 px-4 sm:px-6 py-4">
           <div>
-            <p className="font-mono text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">Birthday wishes &#10022;</p>
+            <p className="font-mono text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">Birthday wishes</p>
             <h1 className="font-display text-xl sm:text-2xl text-white font-bold">
               {loading ? 'Loading…' : `${wishes.length} ${wishes.length === 1 ? 'wish' : 'wishes'}`}
             </h1>
