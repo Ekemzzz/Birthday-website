@@ -58,6 +58,13 @@ body { margin: 0; min-width: 320px; background: #0B0E1A; color: #F1F5F9; font-fa
   right: -120px;
 }
 
+/* Trim the heavy glow on small screens — cheaper to composite on phone GPUs. */
+@media (max-width: 640px) {
+  .splash-blob { filter: blur(50px); }
+  .splash-blob--left,
+  .splash-blob--right { width: 320px; height: 320px; }
+}
+
 .splash-content {
   position: absolute;
   top: 50%;
@@ -92,7 +99,7 @@ body { margin: 0; min-width: 320px; background: #0B0E1A; color: #F1F5F9; font-fa
   text-transform: uppercase;
   color: #fbbf24;
   margin: 0 0 0.75rem;
-  animation: splash-fade-up 0.6s 0.1s both;
+  animation: splash-fade-up 0.5s 0.05s both;
 }
 
 .splash-title {
@@ -110,7 +117,7 @@ body { margin: 0; min-width: 320px; background: #0B0E1A; color: #F1F5F9; font-fa
   font-weight: 700;
   font-style: italic;
   color: #e0e7ff;
-  animation: splash-slide-left 0.7s 0.25s cubic-bezier(.22,1,.36,1) both;
+  animation: splash-slide-left 0.55s 0.12s cubic-bezier(.22,1,.36,1) both;
 }
 
 .splash-birthday {
@@ -121,7 +128,7 @@ body { margin: 0; min-width: 320px; background: #0B0E1A; color: #F1F5F9; font-fa
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: splash-slide-right 0.7s 0.4s cubic-bezier(.22,1,.36,1) both;
+  animation: splash-slide-right 0.55s 0.22s cubic-bezier(.22,1,.36,1) both;
 }
 
 .splash-name {
@@ -131,7 +138,7 @@ body { margin: 0; min-width: 320px; background: #0B0E1A; color: #F1F5F9; font-fa
   letter-spacing: 0.04em;
   color: #fff;
   margin: 0.6rem 0 0;
-  animation: splash-fade-up 0.7s 0.6s cubic-bezier(.22,1,.36,1) both;
+  animation: splash-fade-up 0.55s 0.34s cubic-bezier(.22,1,.36,1) both;
   text-shadow: 0 0 40px rgba(168,85,247,0.4);
 }
 
@@ -140,7 +147,7 @@ body { margin: 0; min-width: 320px; background: #0B0E1A; color: #F1F5F9; font-fa
   gap: 1rem;
   font-size: clamp(1.5rem, 3.5vw, 2.2rem);
   margin-top: 1.4rem;
-  animation: splash-fade-up 0.7s 0.85s cubic-bezier(.22,1,.36,1) both;
+  animation: splash-fade-up 0.55s 0.48s cubic-bezier(.22,1,.36,1) both;
 }
 .splash-balloons span {
   display: inline-block;
