@@ -33,7 +33,7 @@ export default function Admin() {
 /* Simple centered layout used by the placeholder states. */
 function Shell({ children }) {
   return (
-    <div className="min-h-screen bg-[#0B0E1A] flex items-center justify-center px-6">
+    <div className="min-h-screen bg-[#0B0E1A] flex items-center justify-center px-4 sm:px-6">
       <div className="w-full max-w-sm text-center">{children}</div>
     </div>
   )
@@ -56,11 +56,11 @@ function Login({ onSignIn }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#0B0E1A] flex items-center justify-center px-6">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col gap-5 bg-[#121629] p-8 rounded-2xl border border-indigo-800/60 shadow-xl">
+    <div className="min-h-screen bg-[#0B0E1A] flex items-center justify-center px-4 sm:px-6">
+      <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col gap-5 bg-[#121629] p-6 sm:p-8 rounded-2xl border border-indigo-800/60 shadow-xl">
         <div>
           <p className="font-mono mb-2 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">Private area &#10022;</p>
-          <h1 className="font-display text-3xl text-white font-bold">Admin sign in</h1>
+          <h1 className="font-display text-2xl sm:text-3xl text-white font-bold">Admin sign in</h1>
           <p className="mt-2 text-sm text-indigo-200/70">Only Ekemini can view the birthday wishes.</p>
         </div>
 
@@ -120,25 +120,25 @@ function Dashboard({ user, onSignOut }) {
   return (
     <div className="min-h-screen bg-[#0B0E1A] text-slate-100">
       <header className="sticky top-0 z-10 border-b border-indigo-900/60 bg-[#0B0E1A]/90 backdrop-blur">
-        <div className="mx-auto flex max-w-5xl items-center justify-between gap-4 px-6 py-4">
+        <div className="mx-auto flex w-full max-w-5xl 2xl:max-w-6xl flex-wrap items-center justify-between gap-x-4 gap-y-3 px-4 sm:px-6 py-4">
           <div>
             <p className="font-mono text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">Birthday wishes &#10022;</p>
-            <h1 className="font-display text-2xl text-white font-bold">
+            <h1 className="font-display text-xl sm:text-2xl text-white font-bold">
               {loading ? 'Loading…' : `${wishes.length} ${wishes.length === 1 ? 'wish' : 'wishes'}`}
             </h1>
           </div>
-          <div className="flex items-center gap-4">
-            <Link to="/" className="text-sm text-indigo-300/80 hover:text-amber-300 transition-colors">View site</Link>
+          <div className="flex items-center gap-2 sm:gap-4">
+            <Link to="/" className="text-xs sm:text-sm text-indigo-300/80 hover:text-amber-300 transition-colors">View site</Link>
             <button onClick={onSignOut}
-              className="rounded-full border border-indigo-700/70 px-4 py-2 text-sm font-medium text-indigo-200 hover:border-rose-500/70 hover:text-rose-300 transition-colors cursor-pointer">
+              className="rounded-full border border-indigo-700/70 px-3 py-1.5 text-xs sm:px-4 sm:py-2 sm:text-sm font-medium text-indigo-200 hover:border-rose-500/70 hover:text-rose-300 transition-colors cursor-pointer">
               Sign out
             </button>
           </div>
         </div>
       </header>
 
-      <main className="mx-auto max-w-5xl px-6 py-10">
-        <p className="mb-6 text-sm text-indigo-300/60">Signed in as {user.email}</p>
+      <main className="mx-auto w-full max-w-5xl 2xl:max-w-6xl px-4 sm:px-6 py-8 sm:py-10">
+        <p className="mb-6 text-sm text-indigo-300/60 break-all">Signed in as {user.email}</p>
 
         {error && (
           <p className="mb-6 rounded-xl border border-rose-800/60 bg-rose-950/30 p-4 text-sm text-rose-300">
@@ -149,11 +149,11 @@ function Dashboard({ user, onSignOut }) {
         {loading ? (
           <p className="text-indigo-200/70">Fetching your wishes&hellip;</p>
         ) : wishes.length === 0 ? (
-          <div className="rounded-2xl border border-dashed border-indigo-800/60 p-12 text-center text-indigo-200/70">
+          <div className="rounded-2xl border border-dashed border-indigo-800/60 p-8 sm:p-12 text-center text-indigo-200/70">
             No wishes yet. Share your site and they&rsquo;ll show up here.
           </div>
         ) : (
-          <div className="grid gap-5 sm:grid-cols-2">
+          <div className="grid gap-4 sm:gap-5 sm:grid-cols-2 xl:grid-cols-3">
             {wishes.map((w, i) => (
               <article key={w.id}
                 className={`relative flex flex-col gap-3 rounded-2xl border bg-[#121629] p-6 shadow-lg transition-transform hover:-translate-y-0.5 ${cardTones[i % cardTones.length]}`}>
