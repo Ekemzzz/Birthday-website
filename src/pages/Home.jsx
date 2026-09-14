@@ -1,5 +1,4 @@
 import { useEffect, useState, useRef } from 'react'
-import { supabase } from '../lib/supabase'
 import heroImage from '../assets/hero.webp'
 
 /* ─── Typewriter hook ───────────────────────────────────────────── */
@@ -28,7 +27,7 @@ function useTypewriter(lines, { delay = 500, speed = 55 } = {}) {
         }
       }, speed)
       return () => clearInterval(interval)
-    }, lineIdx === 0 ? delay : 300)
+    }, lineIdx === 0 ? delay : 140)
 
     return () => clearTimeout(startPause)
   }, [lineIdx, lines, delay, speed])
@@ -57,7 +56,9 @@ function BirthdaySplash({ onDone }) {
     window.addEventListener('resize', resize)
 
     const colors = ['#fbbf24', '#818cf8', '#c084fc', '#f472b6', '#34d399', '#fb923c']
-    const particles = Array.from({ length: 120 }, () => ({
+    // Fewer particles on small screens — keeps the confetti smooth on phone GPUs.
+    const particleCount = window.innerWidth < 640 ? 48 : 120
+    const particles = Array.from({ length: particleCount }, () => ({
       x: Math.random() * canvas.width,
       y: reduceMotion ? Math.random() * canvas.height : Math.random() * canvas.height - canvas.height,
       r: Math.random() * 6 + 3,
@@ -130,8 +131,8 @@ function BirthdaySplash({ onDone }) {
   /* Animation timeline — shortened when reduced-motion is preferred */
   useEffect(() => {
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    const holdTimer = setTimeout(() => setPhase('exit'), reduceMotion ? 1200 : 3200)
-    const doneTimer = setTimeout(() => onDone(), reduceMotion ? 1600 : 4100)
+    const holdTimer = setTimeout(() => setPhase('exit'), reduceMotion ? 500 : 1250)
+    const doneTimer = setTimeout(() => onDone(), reduceMotion ? 800 : 2000)
     return () => { clearTimeout(holdTimer); clearTimeout(doneTimer) }
   }, [onDone])
 
@@ -193,15 +194,18 @@ function Home() {
   const headingLines = ['Another year of', 'growing, learning', 'and evolving.']
   const { displayed, current, done: typeDone } = useTypewriter(
     splashDone ? headingLines : [],
-    { delay: 400, speed: 55 }
+    { delay: 200, speed: 28 }
   )
 
   async function submitWish(e) {
     e.preventDefault()
     if (!form.name.trim() || !form.message.trim()) return
-    if (!supabase) { setStatus('error'); return }
     setStatus('sending')
     try {
+      // Lazy-load Supabase only when a wish is actually sent, so its client
+      // stays out of the initial bundle and the page paints faster on phones.
+      const { supabase } = await import('../lib/supabase')
+      if (!supabase) { setStatus('error'); return }
       const { error } = await supabase.from('wishes').insert({ name: form.name.trim(), message: form.message.trim() })
       if (error) { setStatus('error'); return }
       setForm({ name: '', message: '' })
