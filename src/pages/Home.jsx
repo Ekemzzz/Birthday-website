@@ -231,9 +231,9 @@ function Home() {
       <div className="absolute -right-32 top-48 h-96 w-96 rounded-full bg-purple-600/15 blur-3xl pointer-events-none" />
 
       {/* ── Nav ── */}
-      <nav className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 ${scrolled ? 'nav-frosted' : 'bg-transparent'}`}>
-        <div className="mx-auto flex h-16 w-full max-w-6xl 2xl:max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <a href="#top" className="font-display text-3xl italic text-white font-semibold hover:text-amber-300 transition">Dev-Ek</a>
+      <nav className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 ${scrolled ? 'nav-frosted shadow-lg' : 'bg-transparent'}`}>
+        <div className="mx-auto flex h-16 sm:h-20 w-full max-w-6xl 2xl:max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+          <a href="#top" className="font-display text-2xl sm:text-3xl italic text-white font-semibold hover:text-amber-300 transition">Dev-Ek</a>
 
           {/* Desktop links */}
           <div className="hidden sm:flex gap-8 text-sm font-medium text-indigo-200">
@@ -241,9 +241,9 @@ function Home() {
             <a href="#wishes" className="hover:text-amber-300 transition-colors">Send wishes</a>
           </div>
 
-          {/* Hamburger button — mobile only */}
+          {/* Hamburger button — mobile touch optimized */}
           <button
-            className="sm:hidden flex flex-col justify-center gap-[5px] w-8 h-8 relative z-40"
+            className="sm:hidden flex flex-col justify-center items-center gap-[5px] w-10 h-10 p-2 relative z-40 rounded-lg hover:bg-white/5 active:bg-white/10 transition-colors"
             onClick={() => setMenuOpen((o) => !o)}
             aria-label={menuOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={menuOpen}
@@ -254,11 +254,11 @@ function Home() {
           </button>
         </div>
 
-        {/* Mobile dropdown */}
-        <div className={`sm:hidden overflow-hidden transition-all duration-300 ${menuOpen ? 'max-h-40 opacity-100' : 'max-h-0 opacity-0'} nav-frosted`}>
-          <div className="flex flex-col px-6 py-4 gap-4 text-sm font-medium text-indigo-200">
-            <a href="#about"  onClick={() => setMenuOpen(false)} className="hover:text-amber-300 transition-colors">About me</a>
-            <a href="#wishes" onClick={() => setMenuOpen(false)} className="hover:text-amber-300 transition-colors">Send wishes</a>
+        {/* Mobile dropdown with solid dark fallback */}
+        <div className={`sm:hidden overflow-hidden transition-all duration-300 ${menuOpen ? 'max-h-48 opacity-100 border-b border-indigo-900/60' : 'max-h-0 opacity-0'} bg-[#0B0E1A]/95 backdrop-blur-md shadow-2xl`}>
+          <div className="flex flex-col px-6 py-5 gap-4 text-base font-medium text-indigo-200">
+            <a href="#about"  onClick={() => setMenuOpen(false)} className="hover:text-amber-300 transition-colors py-1">About me</a>
+            <a href="#wishes" onClick={() => setMenuOpen(false)} className="hover:text-amber-300 transition-colors py-1">Send wishes</a>
           </div>
         </div>
       </nav>
@@ -266,7 +266,7 @@ function Home() {
       {/* ── Hero ── */}
       <section
         id="top"
-        className="relative z-10 min-h-[60vh] sm:min-h-[75vh] lg:min-h-[92vh] flex items-center sm:items-end pb-0 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
+        className="relative z-10 min-h-[70vh] sm:min-h-[80vh] lg:min-h-[92vh] flex items-center sm:items-end pt-24 sm:pt-28 lg:pt-36 pb-12 sm:pb-16 lg:pb-20 px-4 sm:px-6 lg:px-8 overflow-hidden"
       >
         <img src={heroImage} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover" style={{objectPosition: '85% top'}} />
         <div className="absolute inset-0 bg-gradient-to-t from-[#0B0E1A] via-[#0B0E1A]/70 to-[#0B0E1A]/20 pointer-events-none" />
@@ -274,8 +274,8 @@ function Home() {
 
         {/* Hero content */}
         <div className="relative z-10 mx-auto w-full max-w-6xl 2xl:max-w-7xl">
-          <p className="font-mono mb-3 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">OCTOBER 08 &middot; MY BIRTHDAY</p>
-          <h1 className="font-display leading-[1.1] tracking-tight text-white font-bold max-w-2xl" style={{fontSize: 'clamp(1.7rem, 5vw, 4.25rem)'}}>
+          <p className="font-mono mb-3 text-[10px] sm:text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">OCTOBER 08 &middot; MY BIRTHDAY</p>
+          <h1 className="font-display tracking-tight text-white font-bold max-w-2xl w-full break-words" style={{fontSize: 'clamp(1.75rem, 5.5vw, 4.25rem)', lineHeight: '1.15'}}>
             {displayed.map((line, i) => (
               <span key={i} className="block">
                 {i === 0
@@ -295,44 +295,44 @@ function Home() {
 
           {/* #5 — subtitle + button fade in after typewriter done */}
           <div className={`hero-after-type ${typeDone ? 'hero-after-type--visible' : ''}`}>
-            <p className="mt-4 max-w-md leading-7 text-indigo-200/80 text-base">Grateful for every moment that shaped me, and excited for everything still to come.</p>
-            <a href="#wishes" className="mt-5 inline-flex items-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-3.5 rounded-full text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5">Leave a birthday wish</a>
+            <p className="mt-4 max-w-md leading-relaxed text-indigo-200/80 text-sm sm:text-base">Grateful for every moment that shaped me, and excited for everything still to come.</p>
+            <a href="#wishes" className="mt-6 inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-7 py-3.5 rounded-full text-base sm:text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5 active:translate-y-0 text-center">Leave a birthday wish</a>
           </div>
         </div>
-
-
       </section>
 
       {/* ── About ── */}
-      <section id="about" className="reveal relative z-10 bg-[#121629] border-y border-indigo-900/60 px-4 sm:px-6 py-16 sm:py-20 lg:grid-cols-2 lg:gap-20 lg:px-[max(2rem,calc((100%-68rem)/2))] 2xl:px-[max(2rem,calc((100%-76rem)/2))] grid gap-8">
-        <div>
-          <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">A LITTLE ABOUT ME</p>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl leading-tight tracking-tight text-white font-bold">Growing, dreaming,<br />and making it count.</h2>
+      <section id="about" className="reveal relative z-10 bg-[#121629] border-y border-indigo-900/60 py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-6xl 2xl:max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+          <div>
+            <p className="font-mono mb-4 text-[10px] sm:text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">A LITTLE ABOUT ME</p>
+            <h2 className="font-display text-2xl sm:text-4xl lg:text-5xl leading-tight tracking-tight text-white font-bold">Growing, dreaming,<br className="hidden sm:inline" /> and making it count.</h2>
+          </div>
+          <p className="max-w-xl leading-relaxed sm:leading-8 text-indigo-200/80 text-sm sm:text-base lg:pt-4">I am someone who loves exploring new things, finds joy in good conversations, fresh ideas. This year, I am choosing to focus more on the things that matter, working hard and trying out new things.</p>
         </div>
-        <p className="max-w-md pt-5 leading-8 text-indigo-200/80 text-base">I am someone who loves exploring new things, finds joy in good conversations, fresh ideas. This year, I am choosing to focus more on the things that matter, working hard and trying out new things.</p>
       </section>
 
       {/* ── Wishes ── */}
-      <section id="wishes" className="reveal relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 py-20 sm:py-24 lg:px-8">
-        <div className="mb-12 text-center">
-          <p className="font-mono mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">MAKE MY DAY</p>
-          <h2 className="font-display text-3xl sm:text-4xl lg:text-5xl tracking-tight text-white font-bold">Send some love.</h2>
-          <p className="mx-auto mt-5 max-w-md leading-7 text-indigo-200/80 text-base">Your words mean more than you know. Leave a little note for the birthday person.</p>
+      <section id="wishes" className="reveal relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
+        <div className="mb-10 sm:mb-12 text-center">
+          <p className="font-mono mb-3 sm:mb-5 text-[10px] sm:text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">MAKE MY DAY</p>
+          <h2 className="font-display text-2xl sm:text-4xl lg:text-5xl tracking-tight text-white font-bold">Send some love.</h2>
+          <p className="mx-auto mt-4 sm:mt-5 max-w-md leading-relaxed sm:leading-7 text-indigo-200/80 text-sm sm:text-base">Your words mean more than you know. Leave a little note for the birthday person.</p>
         </div>
-        <form onSubmit={submitWish} className="flex flex-col gap-5 bg-[#121629] p-6 sm:p-8 rounded-2xl border border-indigo-800/60 shadow-xl">
+        <form onSubmit={submitWish} className="flex flex-col gap-5 bg-[#121629] p-5 sm:p-8 rounded-2xl border border-indigo-800/60 shadow-xl">
           <label className="flex flex-col gap-2 text-sm font-medium text-indigo-200">Your name
             <input className="border border-indigo-800/80 bg-[#0B0E1A] rounded-xl p-3.5 text-white outline-indigo-500 focus:border-indigo-400 transition-colors placeholder:text-indigo-400/50" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} placeholder="What should I call you?" maxLength="40" required />
           </label>
           <label className="flex flex-col gap-2 text-sm font-medium text-indigo-200">Your birthday wish
             <textarea className="h-32 resize-y border border-indigo-800/80 bg-[#0B0E1A] rounded-xl p-3.5 text-white outline-indigo-500 focus:border-indigo-400 transition-colors placeholder:text-indigo-400/50" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Write something lovely..." maxLength="300" required />
           </label>
-          <button disabled={status === 'sending'} className="inline-flex w-fit items-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-3.5 rounded-full text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0" type="submit">{status === 'sending' ? 'Sending...' : 'Send a wish'}</button>
+          <button disabled={status === 'sending'} className="inline-flex w-full sm:w-fit items-center justify-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-7 py-3.5 rounded-full text-base sm:text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 text-center" type="submit">{status === 'sending' ? 'Sending...' : 'Send a wish'}</button>
           {status === 'success' && <p className="text-sm font-medium text-emerald-400">Your wish is on its way to Ekemini. Thank you!</p>}
           {status === 'error'   && <p className="text-sm font-medium text-rose-400">Something went wrong. Please try again.</p>}
         </form>
       </section>
 
-      <footer className="relative z-10 border-t border-indigo-900/60 py-8 text-center text-sm text-indigo-300/70">Made with a full heart</footer>
+      <footer className="relative z-10 border-t border-indigo-900/60 py-8 text-center text-xs sm:text-sm text-indigo-300/70 px-4">Made with a full heart</footer>
     </main>
   </>
 }

@@ -65,12 +65,12 @@ function Login({ onSignIn }) {
   }
 
   return (
-    <div className="min-h-screen bg-[#0B0E1A] flex items-center justify-center px-4 sm:px-6">
-      <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col gap-5 bg-[#121629] p-6 sm:p-8 rounded-2xl border border-indigo-800/60 shadow-xl">
+    <div className="min-h-screen bg-[#0B0E1A] flex items-center justify-center px-4 sm:px-6 py-8">
+      <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col gap-5 bg-[#121629] p-5 sm:p-8 rounded-2xl border border-indigo-800/60 shadow-xl">
         <div>
-          <p className="font-mono mb-2 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">Private area</p>
+          <p className="font-mono mb-2 text-[10px] sm:text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">Private area</p>
           <h1 className="font-display text-2xl sm:text-3xl text-white font-bold">Admin sign in</h1>
-          <p className="mt-2 text-sm text-indigo-200/70">Only Ekemini can view the birthday wishes.</p>
+          <p className="mt-2 text-xs sm:text-sm text-indigo-200/70">Only Ekemini can view the birthday wishes.</p>
         </div>
 
         <label className="flex flex-col gap-2 text-sm font-medium text-indigo-200">Email
@@ -88,11 +88,11 @@ function Login({ onSignIn }) {
         {error && <p className="text-sm font-medium text-rose-400">{error}</p>}
 
         <button type="submit" disabled={busy}
-          className="inline-flex justify-center items-center gap-2 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-3.5 rounded-full text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
+          className="inline-flex w-full justify-center items-center gap-2 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-3.5 rounded-full text-base sm:text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
 
-        <Link to="/" className="text-center text-sm text-indigo-300/70 hover:text-amber-300 transition-colors">&larr; Back to the site</Link>
+        <Link to="/" className="text-center text-xs sm:text-sm text-indigo-300/70 hover:text-amber-300 transition-colors">&larr; Back to the site</Link>
       </form>
     </div>
   )
