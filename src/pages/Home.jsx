@@ -162,6 +162,62 @@ function BirthdaySplash({ onDone }) {
    re-trigger the typewriter effect every frame and leak typing intervals. */
 const HEADING_LINES = ['Another year of', 'growing, learning', 'and evolving.']
 
+/* The About clip is portrait 3:4, so it gets a panel with that exact ratio —
+   nothing is cropped and nothing is letterboxed. The edit plays in full, from
+   the baby photo through to the closing shot of the laptop.
+   It only plays while on screen, and never for visitors who prefer reduced
+   motion, who get the poster still in its place instead. */
+function AboutVideo() {
+  const videoRef = useRef(null)
+  // Read the preference once during render — no effect, no extra re-render.
+  const [motionOk] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches)
+
+  useEffect(() => {
+    const video = videoRef.current
+    if (!motionOk || !video) return
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) video.play().catch(() => {})
+        else video.pause()
+      },
+      { threshold: 0.2 }
+    )
+    observer.observe(video)
+    return () => observer.disconnect()
+  }, [motionOk])
+
+  if (!motionOk) {
+    return (
+      <figure className="mx-auto w-full max-w-sm overflow-hidden rounded-2xl border border-indigo-800/60 bg-[#0B0E1A] shadow-2xl shadow-indigo-950/60 lg:max-w-md">
+        <img
+          src="/about-poster.webp"
+          alt="A framed childhood photo of Ekemini as a baby, held up to the camera"
+          width="540"
+          height="720"
+          className="block aspect-[3/4] w-full object-contain"
+        />
+      </figure>
+    )
+  }
+
+  return (
+    <figure className="mx-auto w-full max-w-sm overflow-hidden rounded-2xl border border-indigo-800/60 bg-[#0B0E1A] shadow-2xl shadow-indigo-950/60 lg:max-w-md">
+      <video
+        ref={videoRef}
+        className="block aspect-[3/4] w-full object-contain"
+        src="/about-background.mp4"
+        poster="/about-poster.webp"
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-hidden="true"
+        tabIndex={-1}
+      />
+    </figure>
+  )
+}
+
 function Home() {
   const [splashDone, setSplashDone] = useState(() => {
     return sessionStorage.getItem('splash-shown') === 'true'
@@ -297,13 +353,16 @@ function Home() {
       </section>
 
       {/* ── About ── */}
-      <section id="about" className="reveal relative z-10 bg-[#121629] border-y border-indigo-900/60 py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
-        <div className="mx-auto w-full max-w-6xl 2xl:max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-          <div>
+      <section id="about" className="reveal relative z-10 overflow-hidden bg-[#121629] border-y border-indigo-900/60 py-16 sm:py-20 lg:py-24 px-4 sm:px-6 lg:px-8">
+        {/* Halo ties the video panel into the section */}
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_75%_50%,rgba(99,102,241,0.18),transparent_60%)]" />
+        <div className="relative z-10 mx-auto w-full max-w-6xl 2xl:max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+          <div className="max-w-xl">
             <p className="font-mono mb-4 text-[10px] sm:text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">A LITTLE ABOUT ME</p>
             <h2 className="font-display text-2xl sm:text-4xl lg:text-5xl leading-tight tracking-tight text-white font-bold">Growing, dreaming,<br className="hidden sm:inline" /> and making it count.</h2>
+            <p className="mt-6 sm:mt-8 leading-relaxed sm:leading-8 text-indigo-200/80 text-sm sm:text-base">I am someone who loves exploring new things, finds joy in good conversations, fresh ideas. This year, I am choosing to focus more on the things that matter, working hard and trying out new things.</p>
           </div>
-          <p className="max-w-xl leading-relaxed sm:leading-8 text-indigo-200/80 text-sm sm:text-base lg:pt-4">I am someone who loves exploring new things, finds joy in good conversations, fresh ideas. This year, I am choosing to focus more on the things that matter, working hard and trying out new things.</p>
+          <AboutVideo />
         </div>
       </section>
 
