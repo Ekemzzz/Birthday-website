@@ -6,8 +6,6 @@ function useTypewriter(lines, { delay = 500, speed = 55 } = {}) {
   const [displayed, setDisplayed] = useState([])   // fully typed lines
   const [current, setCurrent] = useState('')        // line being typed
   const [lineIdx, setLineIdx] = useState(0)         // which line we're on
-  // Derived (not stored): flips back to false when `lines` changes from [] to
-  // the real heading lines, and avoids a synchronous setState inside the effect.
   const done = lineIdx >= lines.length
 
   useEffect(() => {
@@ -29,9 +27,6 @@ function useTypewriter(lines, { delay = 500, speed = 55 } = {}) {
       }, speed)
     }, lineIdx === 0 ? delay : 140)
 
-    // Clear BOTH timers on re-run/unmount. The interval used to be "cleaned up"
-    // inside the setTimeout callback (a no-op), so a leaked interval kept typing
-    // and pushed duplicate lines into `displayed`.
     return () => {
       clearTimeout(startPause)
       if (interval) clearInterval(interval)
@@ -173,10 +168,10 @@ function Home() {
   })
   const [form, setForm] = useState({ name: '', message: '' })
   const [status, setStatus] = useState('idle') // idle | sending | success | error
-  const [scrolled, setScrolled] = useState(false)       // #2 frosted nav
-  const [menuOpen, setMenuOpen] = useState(false)        // #3 hamburger
+  const [scrolled, setScrolled] = useState(false)   // frosted nav on scroll
+  const [menuOpen, setMenuOpen] = useState(false)    // mobile hamburger menu
 
-  // #2 — frosted nav on scroll
+  // Frosted nav on scroll
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll, { passive: true })
@@ -190,7 +185,7 @@ function Home() {
     return () => window.removeEventListener('resize', onResize)
   }, [])
 
-  // #4 — intersection observer for section entrance animations
+  // Intersection observer for section entrance animations
   useEffect(() => {
     const els = document.querySelectorAll('.reveal')
     if (!els.length) return
@@ -293,7 +288,7 @@ function Home() {
             )}
           </h1>
 
-          {/* #5 — subtitle + button fade in after typewriter done */}
+          {/* Subtitle + button fade in after typewriter done */}
           <div className={`hero-after-type ${typeDone ? 'hero-after-type--visible' : ''}`}>
             <p className="mt-4 max-w-md leading-relaxed text-indigo-200/80 text-sm sm:text-base">Grateful for every moment that shaped me, and excited for everything still to come.</p>
             <a href="#wishes" className="mt-6 inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-7 py-3.5 rounded-full text-base sm:text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5 active:translate-y-0 text-center">Leave a birthday wish</a>
