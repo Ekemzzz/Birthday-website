@@ -88,7 +88,7 @@ function Login({ onSignIn }) {
         {error && <p className="text-sm font-medium text-rose-400">{error}</p>}
 
         <button type="submit" disabled={busy}
-          className="inline-flex w-full justify-center items-center gap-2 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-6 py-3.5 rounded-full text-base sm:text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
+          className="inline-flex w-full justify-center items-center gap-2 bg-amber-500 hover:bg-amber-400 px-6 py-3.5 rounded-full text-base sm:text-sm font-semibold text-[#0B0E1A] transition-all shadow-lg shadow-amber-500/30 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed">
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
 
