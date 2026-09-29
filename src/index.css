@@ -130,7 +130,7 @@ input, textarea, select {
   font-size: clamp(2.2rem, 7.5vw, 6rem);
   font-weight: 700;
   font-style: italic;
-  color: #e0e7ff;
+  color: #fff;
   animation: splash-slide-left 0.55s 0.12s cubic-bezier(.22,1,.36,1) both;
 }
 
@@ -138,10 +138,7 @@ input, textarea, select {
   font-family: "Playfair Display", serif;
   font-size: clamp(2.4rem, 8.5vw, 6.8rem);
   font-weight: 700;
-  background: linear-gradient(to right, #a5b4fc, #c084fc, #fbbf24);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: #fff;
   animation: splash-slide-right 0.55s 0.22s cubic-bezier(.22,1,.36,1) both;
   word-break: break-word;
 }
@@ -151,10 +148,10 @@ input, textarea, select {
   font-size: clamp(1.2rem, 4vw, 2.8rem);
   font-weight: 700;
   letter-spacing: 0.04em;
-  color: #fff;
+  color: #fbbf24;
   margin: 0.5rem 0 0;
   animation: splash-fade-up 0.55s 0.34s cubic-bezier(.22,1,.36,1) both;
-  text-shadow: 0 0 40px rgba(168,85,247,0.4);
+  text-shadow: 0 0 40px rgba(251,191,36,0.4);
 }
 
 .splash-balloons {

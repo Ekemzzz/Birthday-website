@@ -325,20 +325,13 @@ function Home() {
 
         {/* Hero content */}
         <div className="relative z-10 mx-auto w-full max-w-6xl 2xl:max-w-7xl">
-          <p className="font-mono mb-3 text-[10px] sm:text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">OCTOBER 08 &middot; MY BIRTHDAY</p>
           <h1 className="font-display tracking-tight text-white font-bold max-w-2xl w-full break-words" style={{fontSize: 'clamp(1.75rem, 5.5vw, 4.25rem)', lineHeight: '1.15'}}>
             {displayed.map((line, i) => (
-              <span key={i} className="block">
-                {i === 0
-                  ? <span className="text-white">{line}</span>
-                  : <em className="bg-gradient-to-r from-indigo-300 via-violet-300 to-amber-200 bg-clip-text text-transparent not-italic">{line}</em>}
-              </span>
+              <span key={i} className="block text-white">{line}</span>
             ))}
             {!typeDone && (
-              <span className="block">
-                {displayed.length === 0
-                  ? <span className="text-white">{current}</span>
-                  : <em className="bg-gradient-to-r from-indigo-300 via-violet-300 to-amber-200 bg-clip-text text-transparent not-italic">{current}</em>}
+              <span className="block text-white">
+                {current}
                 <span className="typing-cursor" aria-hidden="true" />
               </span>
             )}
@@ -347,7 +340,8 @@ function Home() {
           {/* Subtitle + button fade in after typewriter done */}
           <div className={`hero-after-type ${typeDone ? 'hero-after-type--visible' : ''}`}>
             <p className="mt-4 max-w-md leading-relaxed text-indigo-200/80 text-sm sm:text-base">Grateful for every moment that shaped me, and excited for everything still to come.</p>
-            <a href="#wishes" className="mt-6 inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-7 py-3.5 rounded-full text-base sm:text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5 active:translate-y-0 text-center">Leave a birthday wish</a>
+            <p className="mt-5 font-mono text-[10px] sm:text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">OCTOBER 08 &middot; MY BIRTHDAY</p>
+            <a href="#wishes" className="mt-6 inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-amber-500 hover:bg-amber-400 px-7 py-3.5 rounded-full text-base sm:text-sm font-semibold text-[#0B0E1A] transition-all shadow-lg shadow-amber-500/30 hover:-translate-y-0.5 active:translate-y-0 text-center">Leave a birthday wish</a>
           </div>
         </div>
       </section>
@@ -380,7 +374,7 @@ function Home() {
           <label className="flex flex-col gap-2 text-sm font-medium text-indigo-200">Your birthday wish
             <textarea className="h-32 resize-y border border-indigo-800/80 bg-[#0B0E1A] rounded-xl p-3.5 text-white outline-indigo-500 focus:border-indigo-400 transition-colors placeholder:text-indigo-400/50" value={form.message} onChange={(e) => setForm({ ...form, message: e.target.value })} placeholder="Write something lovely..." maxLength="300" required />
           </label>
-          <button disabled={status === 'sending'} className="inline-flex w-full sm:w-fit items-center justify-center gap-3 bg-gradient-to-r from-rose-500 via-pink-500 to-amber-400 hover:opacity-95 px-7 py-3.5 rounded-full text-base sm:text-sm font-semibold text-white transition-all shadow-lg shadow-rose-500/30 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 text-center" type="submit">{status === 'sending' ? 'Sending...' : 'Send a wish'}</button>
+          <button disabled={status === 'sending'} className="inline-flex w-full sm:w-fit items-center justify-center gap-3 bg-amber-500 hover:bg-amber-400 px-7 py-3.5 rounded-full text-base sm:text-sm font-semibold text-[#0B0E1A] transition-all shadow-lg shadow-amber-500/30 hover:-translate-y-0.5 active:translate-y-0 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0 text-center" type="submit">{status === 'sending' ? 'Sending...' : 'Send a wish'}</button>
           {status === 'success' && <p className="text-sm font-medium text-emerald-400">Your wish is on its way to Ekemini. Thank you!</p>}
           {status === 'error'   && <p className="text-sm font-medium text-rose-400">Something went wrong. Please try again.</p>}
         </form>
