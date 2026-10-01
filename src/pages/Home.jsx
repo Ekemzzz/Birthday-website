@@ -162,13 +162,24 @@ function BirthdaySplash({ onDone }) {
    re-trigger the typewriter effect every frame and leak typing intervals. */
 const HEADING_LINES = ['Another year of', 'growing, learning', 'and evolving.']
 
-/* The About clip is portrait 3:4, so it gets a panel with that exact ratio —
-   nothing is cropped and nothing is letterboxed. The edit plays in full, from
-   the baby photo through to the closing shot of the laptop.
+/* The About clip is portrait 3:4, but the edit mixes full-frame portrait shots
+   with landscape photos that carry black padding above and below them inside
+   that frame. Instead of showing the padding, the panel reads the frame it is
+   playing and fits itself to the photo inside it: tall for the portrait shots,
+   shorter for the landscape ones, easing between the two as the edit moves.
    It only plays while on screen, and never for visitors who prefer reduced
    motion, who get the poster still in its place instead. */
+const FIT_BANDS = 32      // vertical samples taken from each frame
+const FIT_DARK = 30       // a row this dim counts as padding, not photo
+const FIT_INTERVAL = 90   // ms between reads of the frame
+const FIT_EASE = 0.16     // seconds spent easing towards the measured size
+const FIT_READS = 3       // reads kept, so a crossfade cannot swing the panel
+const FIT_SNAP = 0.93     // a photo this close to the full frame is left alone
+const FIT_ENTER = 0.85    // ...and the panel only starts fitting below this
+
 function AboutVideo() {
   const videoRef = useRef(null)
+  const figureRef = useRef(null)
   // Read the preference once during render — no effect, no extra re-render.
   const [motionOk] = useState(() => !window.matchMedia('(prefers-reduced-motion: reduce)').matches)
 
@@ -186,9 +197,106 @@ function AboutVideo() {
     return () => observer.disconnect()
   }, [motionOk])
 
+  /* Fit the panel to whichever photo is on screen. Everything is expressed as a
+     fraction of the frame, so the maths holds at every breakpoint, and the
+     easing is driven by elapsed time rather than tick count so it behaves the
+     same at 30, 60 or 144 Hz. */
+  useEffect(() => {
+    if (!motionOk) return
+    const video = videoRef.current
+    const figure = figureRef.current
+    if (!video || !figure) return
+
+    const canvas = document.createElement('canvas')
+    canvas.width = 1
+    canvas.height = FIT_BANDS
+    const ctx = canvas.getContext('2d', { willReadFrequently: true })
+
+    let height = 1     // share of the frame the photo occupies
+    let centre = 0.5   // where in the frame that photo sits
+    let wantHeight = 1
+    let wantCentre = 0.5
+    const reads = []
+    let fitted = false // whether the panel is currently trimmed to a photo
+    let readable = true
+    let lastRead = 0
+    let prev = performance.now()
+    let raf = 0
+
+    // Squash the frame into one column of bands, then keep the bright run in it.
+    const measure = () => {
+      ctx.drawImage(video, 0, 0, 1, FIT_BANDS)
+      const { data } = ctx.getImageData(0, 0, 1, FIT_BANDS)
+      const luma = []
+      let total = 0
+      for (let i = 0; i < FIT_BANDS; i++) {
+        const v = 0.2126 * data[i * 4] + 0.7152 * data[i * 4 + 1] + 0.0722 * data[i * 4 + 2]
+        luma.push(v)
+        total += v
+      }
+      // A frame that is dark all over, like the closing laptop shot, has no
+      // padding to remove, so leave the panel at its full height.
+      if (total / FIT_BANDS < FIT_DARK) return { height: 1, centre: 0.5 }
+      let from = 0
+      while (from < FIT_BANDS - 1 && luma[from] < FIT_DARK) from++
+      let to = FIT_BANDS - 1
+      while (to > from && luma[to] < FIT_DARK) to--
+      const span = (to - from + 1) / FIT_BANDS
+      if (span > FIT_SNAP) return { height: 1, centre: 0.5 }
+      // Never chase a band that has drifted off centre, and never crop harder
+      // than the widest landscape in the edit.
+      return {
+        height: Math.max(0.55, span),
+        centre: Math.min(1 - span / 2, Math.max(span / 2, (from + (to - from + 1) / 2) / FIT_BANDS)),
+      }
+    }
+
+    const tick = (now) => {
+      raf = requestAnimationFrame(tick)
+      const dt = Math.min(0.1, (now - prev) / 1000)
+      prev = now
+      if (video.paused || video.readyState < 2) return
+      if (readable && now - lastRead > FIT_INTERVAL) {
+        lastRead = now
+        try {
+          // The middle of the last few reads decides, so the brief dark of a
+          // crossfade cannot make the panel twitch.
+          reads.push(measure())
+          if (reads.length > FIT_READS) reads.shift()
+          const mid = reads.slice().sort((a, b) => a.height - b.height)[reads.length >> 1]
+          // Two thresholds rather than one: a photo has to be clearly narrower
+          // than the frame before the panel starts trimming, and has to be
+          // clearly full again before it stops. Otherwise a shot that drifts
+          // across a single boundary makes the panel flap.
+          if (mid.height === 1) fitted = false
+          else if (mid.height <= FIT_ENTER) fitted = true
+          wantHeight = fitted ? mid.height : 1
+          wantCentre = fitted ? mid.centre : 0.5
+        } catch {
+          readable = false // pixels are not readable here; keep the full frame
+        }
+      }
+      const ease = 1 - Math.exp(-dt / FIT_EASE)
+      const nextHeight = height + (wantHeight - height) * ease
+      const nextCentre = centre + (wantCentre - centre) * ease
+      if (Math.abs(nextHeight - height) < 0.001 && Math.abs(nextCentre - centre) < 0.001) return
+      height = nextHeight
+      centre = nextCentre
+      figure.style.aspectRatio = String(3 / 4 / height)
+      // The panel is object-cover, so it trims equal padding top and bottom by
+      // default. Nudge where the frame is cropped from to keep the photo, not
+      // its padding, inside the panel.
+      const shift = height < 0.999 ? (centre - height / 2) / (1 - height) : 0.5
+      video.style.objectPosition = `50% ${(Math.min(1, Math.max(0, shift)) * 100).toFixed(2)}%`
+    }
+
+    raf = requestAnimationFrame(tick)
+    return () => cancelAnimationFrame(raf)
+  }, [motionOk])
+
   if (!motionOk) {
     return (
-      <figure className="mx-auto w-full max-w-sm overflow-hidden rounded-2xl border border-indigo-800/60 bg-[#0B0E1A] shadow-2xl shadow-indigo-950/60 lg:max-w-md">
+      <figure className="mx-auto w-full max-w-xs overflow-hidden rounded-2xl border border-indigo-800/60 bg-[#0B0E1A] shadow-2xl shadow-indigo-950/60 lg:max-w-sm">
         <img
           src="/about-poster.webp"
           alt="A framed childhood photo of Ekemini as a baby, held up to the camera"
@@ -201,10 +309,14 @@ function AboutVideo() {
   }
 
   return (
-    <figure className="mx-auto w-full max-w-sm overflow-hidden rounded-2xl border border-indigo-800/60 bg-[#0B0E1A] shadow-2xl shadow-indigo-950/60 lg:max-w-md">
+    <figure
+      ref={figureRef}
+      style={{ aspectRatio: String(3 / 4) }}
+      className="relative mx-auto w-full max-w-xs overflow-hidden rounded-2xl border border-indigo-800/60 bg-[#0B0E1A] shadow-2xl shadow-indigo-950/60 lg:max-w-sm"
+    >
       <video
         ref={videoRef}
-        className="block aspect-[3/4] w-full object-contain"
+        className="absolute inset-0 block h-full w-full object-cover"
         src="/about-background.mp4"
         poster="/about-poster.webp"
         muted
