@@ -396,7 +396,7 @@ function Home() {
       {/* ── Nav ── */}
       <nav className={`fixed top-0 left-0 right-0 z-30 transition-all duration-300 ${scrolled ? 'nav-frosted shadow-lg' : 'bg-transparent'}`}>
         <div className="mx-auto flex h-16 sm:h-20 w-full max-w-6xl 2xl:max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
-          <a href="#top" className="font-display text-2xl sm:text-3xl italic text-white font-semibold hover:text-amber-300 transition">Dev-Ek</a>
+          <a href="#top" className="inline-flex items-center py-2 font-display text-2xl sm:text-3xl italic text-white font-semibold hover:text-amber-300 transition">Dev-Ek</a>
 
           {/* Desktop links */}
           <div className="hidden sm:flex gap-8 text-sm font-medium text-indigo-200">
@@ -420,8 +420,8 @@ function Home() {
         {/* Mobile dropdown with solid dark fallback */}
         <div className={`sm:hidden overflow-hidden transition-all duration-300 ${menuOpen ? 'max-h-48 opacity-100 border-b border-indigo-900/60' : 'max-h-0 opacity-0'} bg-[#0B0E1A]/95 backdrop-blur-md shadow-2xl`}>
           <div className="flex flex-col px-6 py-5 gap-4 text-base font-medium text-indigo-200">
-            <a href="#about"  onClick={() => setMenuOpen(false)} className="hover:text-amber-300 transition-colors py-1">About me</a>
-            <a href="#wishes" onClick={() => setMenuOpen(false)} className="hover:text-amber-300 transition-colors py-1">Send wishes</a>
+            <a href="#about"  onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center hover:text-amber-300 transition-colors">About me</a>
+            <a href="#wishes" onClick={() => setMenuOpen(false)} className="flex min-h-11 items-center hover:text-amber-300 transition-colors">Send wishes</a>
           </div>
         </div>
       </nav>
@@ -437,7 +437,9 @@ function Home() {
 
         {/* Hero content */}
         <div className="relative z-10 mx-auto w-full max-w-6xl 2xl:max-w-7xl text-center sm:text-left">
-          <h1 className="font-display tracking-tight text-white font-bold max-w-2xl w-full break-words mx-auto sm:mx-0" style={{fontSize: 'clamp(1.75rem, 5.5vw, 4.25rem)', lineHeight: '1.15'}}>
+          {/* aria-label carries the full heading — the typewriter's per-line
+              spans would otherwise read as run-on text to screen readers */}
+          <h1 aria-label="Another year of growing, learning and evolving." className="font-display tracking-tight text-white font-bold max-w-2xl w-full break-words mx-auto sm:mx-0" style={{fontSize: 'clamp(1.75rem, 5.5vw, 4.25rem)', lineHeight: '1.15'}}>
             {displayed.map((line, i) => (
               <span key={i} className="block text-white">{line}</span>
             ))}
@@ -452,7 +454,7 @@ function Home() {
           {/* Subtitle + button fade in after typewriter done */}
           <div className={`hero-after-type ${typeDone ? 'hero-after-type--visible' : ''}`}>
             <p className="mt-4 max-w-md leading-relaxed text-indigo-200/80 text-sm sm:text-base mx-auto sm:mx-0 text-balance">Grateful for every moment that shaped me, and excited for everything still to come.</p>
-            <p className="mt-5 font-mono text-[10px] sm:text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">OCTOBER 08 &middot; MY BIRTHDAY</p>
+            <p className="mt-5 font-mono text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">OCTOBER 08 &middot; MY BIRTHDAY</p>
             <a href="#wishes" className="mt-6 inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-amber-500 hover:bg-amber-400 px-7 py-3.5 rounded-full text-base sm:text-sm font-semibold text-[#0B0E1A] transition-all shadow-lg shadow-amber-500/30 hover:-translate-y-0.5 active:translate-y-0 text-center">Leave a birthday wish</a>
           </div>
         </div>
@@ -464,7 +466,7 @@ function Home() {
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_75%_50%,rgba(99,102,241,0.18),transparent_60%)]" />
         <div className="relative z-10 mx-auto w-full max-w-6xl 2xl:max-w-7xl grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-center">
           <div className="max-w-xl">
-            <p className="font-mono mb-4 text-[10px] sm:text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">A LITTLE ABOUT ME</p>
+            <p className="font-mono mb-4 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">A LITTLE ABOUT ME</p>
             <h2 className="font-display text-2xl sm:text-4xl lg:text-5xl leading-tight tracking-tight text-white font-bold">Growing, dreaming,<br className="hidden sm:inline" /> and making it count.</h2>
             <p className="mt-6 sm:mt-8 leading-relaxed sm:leading-8 text-indigo-200/80 text-sm sm:text-base">I am someone who loves exploring new things, finds joy in good conversations, fresh ideas. This year, I am choosing to focus more on the things that matter, working hard and trying out new things.</p>
           </div>
@@ -475,7 +477,7 @@ function Home() {
       {/* ── Wishes ── */}
       <section id="wishes" className="reveal relative z-10 mx-auto w-full max-w-3xl px-4 sm:px-6 lg:px-8 py-16 sm:py-24">
         <div className="mb-10 sm:mb-12 text-center">
-          <p className="font-mono mb-3 sm:mb-5 text-[10px] sm:text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">MAKE MY DAY</p>
+          <p className="font-mono mb-3 sm:mb-5 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">MAKE MY DAY</p>
           <h2 className="font-display text-2xl sm:text-4xl lg:text-5xl tracking-tight text-white font-bold">Send some love.</h2>
           <p className="mx-auto mt-4 sm:mt-5 max-w-md leading-relaxed sm:leading-7 text-indigo-200/80 text-sm sm:text-base">Your words mean more than you know. Leave a little note for the birthday person.</p>
         </div>

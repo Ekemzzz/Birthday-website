@@ -68,7 +68,7 @@ function Login({ onSignIn }) {
     <div className="min-h-screen bg-[#0B0E1A] flex items-center justify-center px-4 sm:px-6 py-8">
       <form onSubmit={handleSubmit} className="w-full max-w-sm flex flex-col gap-5 bg-[#121629] p-5 sm:p-8 rounded-2xl border border-indigo-800/60 shadow-xl">
         <div>
-          <p className="font-mono mb-2 text-[10px] sm:text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">Private area</p>
+          <p className="font-mono mb-2 text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">Private area</p>
           <h1 className="font-display text-2xl sm:text-3xl text-white font-bold">Admin sign in</h1>
           <p className="mt-2 text-xs sm:text-sm text-indigo-200/70">Only Ekemini can view the birthday wishes.</p>
         </div>
@@ -92,7 +92,7 @@ function Login({ onSignIn }) {
           {busy ? 'Signing in…' : 'Sign in'}
         </button>
 
-        <Link to="/" className="text-center text-xs sm:text-sm text-indigo-300/70 hover:text-amber-300 transition-colors">&larr; Back to the site</Link>
+        <Link to="/" className="inline-flex min-h-11 items-center justify-center text-center text-xs sm:text-sm text-indigo-300/70 hover:text-amber-300 transition-colors">&larr; Back to the site</Link>
       </form>
     </div>
   )
