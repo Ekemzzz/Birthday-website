@@ -436,8 +436,8 @@ function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0B0E1A]/90 via-[#0B0E1A]/50 to-transparent pointer-events-none" />
 
         {/* Hero content */}
-        <div className="relative z-10 mx-auto w-full max-w-6xl 2xl:max-w-7xl">
-          <h1 className="font-display tracking-tight text-white font-bold max-w-2xl w-full break-words" style={{fontSize: 'clamp(1.75rem, 5.5vw, 4.25rem)', lineHeight: '1.15'}}>
+        <div className="relative z-10 mx-auto w-full max-w-6xl 2xl:max-w-7xl text-center sm:text-left">
+          <h1 className="font-display tracking-tight text-white font-bold max-w-2xl w-full break-words mx-auto sm:mx-0" style={{fontSize: 'clamp(1.75rem, 5.5vw, 4.25rem)', lineHeight: '1.15'}}>
             {displayed.map((line, i) => (
               <span key={i} className="block text-white">{line}</span>
             ))}
@@ -451,7 +451,7 @@ function Home() {
 
           {/* Subtitle + button fade in after typewriter done */}
           <div className={`hero-after-type ${typeDone ? 'hero-after-type--visible' : ''}`}>
-            <p className="mt-4 max-w-md leading-relaxed text-indigo-200/80 text-sm sm:text-base">Grateful for every moment that shaped me, and excited for everything still to come.</p>
+            <p className="mt-4 max-w-md leading-relaxed text-indigo-200/80 text-sm sm:text-base mx-auto sm:mx-0 text-balance">Grateful for every moment that shaped me, and excited for everything still to come.</p>
             <p className="mt-5 font-mono text-[10px] sm:text-[11px] font-semibold tracking-[.14em] text-amber-400 uppercase">OCTOBER 08 &middot; MY BIRTHDAY</p>
             <a href="#wishes" className="mt-6 inline-flex w-full sm:w-auto items-center justify-center gap-3 bg-amber-500 hover:bg-amber-400 px-7 py-3.5 rounded-full text-base sm:text-sm font-semibold text-[#0B0E1A] transition-all shadow-lg shadow-amber-500/30 hover:-translate-y-0.5 active:translate-y-0 text-center">Leave a birthday wish</a>
           </div>
